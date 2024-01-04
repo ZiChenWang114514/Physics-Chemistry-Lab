@@ -1,0 +1,38 @@
+Line1
+Equation	y = a + b*x
+Plot	297.8
+Weight	No Weighting
+Intercept	0.00213 ± 7.61153E-5
+Slope	1.88817E-4 ± 8.72824E-7
+Residual Sum of Squares	6.61755E-5
+Pearson's r	0.99773
+R-Square (COD)	0.99547
+Adj. R-Square	0.99545
+
+Line2
+Equation	y = a + b*x
+Plot	297.8
+Weight	No Weighting
+Intercept	-0.03881 ± 0.0011
+Slope	1.9348E-4 ± 1.07289E-6
+Residual Sum of Squares	5.55092E-4
+Pearson's r	0.99566
+R-Square (COD)	0.99134
+Adj. R-Square	0.99131
+
+Line3
+Equation	y = a + b*x
+Plot	297.8
+Weight	No Weighting
+Intercept	-1.37659 ± 2.2706E-4
+Slope	2.17858E-4 ± 6.40501E-7
+Residual Sum of Squares	7.65603E-5
+Pearson's r	0.99889
+R-Square (COD)	0.99777
+Adj. R-Square	0.99777
+
+
+将以上拟合直线的内容按照以下格式进行改写
+Loop2-6-Line1 & $\Delta T/\mathrm{~{}^\circ C} = (1.885\pm 0.008) \times 10^{-4}t/\mathrm{~s} + (2.149\pm 0.076) \times 10^{-3} \quad r^2 = 0.9955$ \\
+Loop2-6-Line2 & $\Delta T/\mathrm{~{}^\circ C} = (2.192\pm 0.007) \times 10^{-4}t/\mathrm{~s} + (-1.377\pm 0.0003) \quad r^2 = 0.9971$ \\
+Loop2-6-Line3 & $\Delta T/\mathrm{~{}^\circ C} = (1.725\pm 0.009) \times 10^{-4}t/\mathrm{~s} + (-0.0162\pm 0.0010) \quad r^2 = 0.9948$ \\

@@ -1,0 +1,117 @@
+
+\documentclass[12pt]{article}
+
+%	页面设置
+\usepackage{geometry}
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+\usepackage{graphicx}
+\usepackage{ctex}
+\usepackage{fontspec}
+\usepackage{setspace}
+\usepackage{array,longtable,subcaption,multirow,float,calc,tcolorbox}
+\usepackage{siunitx}
+\usepackage[version=4]{mhchem}
+\usepackage{inconsolata}
+\usepackage[strict]{changepage}
+\usepackage{listings}
+\usepackage{xcolor} % for setting colors
+
+% Define your colors here
+\definecolor{codegray}{gray}{0.9}
+
+% Set up the listings package to format the code
+\lstnewenvironment{code}{
+    \lstset{
+        backgroundcolor=\color{codegray}, % set the background color
+        basicstyle=\ttfamily, % set the font style to teletype family
+        breaklines=true, % allows line breaking
+        numbers=left, % line numbers on the left
+        numberstyle=\tiny\color{gray}, % style for the line numbers
+        stepnumber=1, % numbering steps
+        numbersep=5pt, % how far the line numbers are from the code
+        frame=none, % no frame around the code
+        framesep=0pt, % space before and after the code (if no frame, not needed)
+        rulecolor=\color{black}, % frame color (if no frame, not needed)
+        framerule=0pt, % frame thickness (if no frame, not needed)
+        fillcolor=\color{codegray}, % background color (if not using the general backgroundcolor)
+        tabsize=4, % tab size
+        showstringspaces=false, % don't mark spaces in strings
+        aboveskip=1pt, % reduces the default spacing above the code block
+        belowskip=2pt, % reduces the default spacing below the code block
+        % any other code settings can be added here
+    }
+}{}
+
+
+
+%\usepackage{etoolbox}
+%\robustify\ref
+%\pretocmd{\ref}{\textbf}{}{}
+
+%	字体设置
+\setmainfont{Times New Roman}
+\setCJKmainfont{SimSun.ttf}
+\setCJKsansfont{SimHei.ttf}
+
+%	表格设置
+\usepackage{makecell}
+\newcommand{\addcell}[2][4]{\makecell{\zihao{#1}\textsf{#2}}}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{tabularx}
+
+%	设置图注、表注
+\usepackage{caption}
+\usepackage{bicaption}
+\captionsetup{labelsep=quad, font={small, bf}, skip=2pt}
+\DeclareCaptionOption{english}[]{
+    \renewcommand\figurename{Fig.}
+    \renewcommand\tablename{Table}
+}
+\captionsetup[bi-second]{english}
+
+%	设置页眉
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancypagestyle{preContent}{
+    \fancyhead[L]{\zihao{-5} 物理化学实验}
+    \fancyhead[C]{\zihao{-5} 物理化学实验期末小结}
+    \fancyhead[R]{\zihao{-5} 2100011873\ 王子宸}
+}
+\pagestyle{preContent}
+
+%	设置首页页眉及取消首页页脚 若不需要首页页眉 请注释掉下列内容
+%\fancypagestyle{plain}{
+	%\fancyhead[L]{\zihao{-5} 物理化学实验}
+	%\fancyhead[C]{\zihao{-5} 实验xx\ \ xxxxx}
+	%\fancyhead[R]{\zihao{-5} xxxxxxxxxx\ xxx}
+	%\cfoot{}
+%}
+
+%	设置标题格式
+\titleformat*{\section}{\zihao{4}\sffamily}
+\titleformat*{\subsection}{\zihao{-4}\sffamily}
+\titleformat*{\subsubsection}{\zihao{-4}\sffamily}
+\titlespacing*{\section}{0pt}{10pt}{10pt}
+\titlespacing*{\subsection}{0pt}{10pt}{5pt}
+\titlespacing*{\subsubsection}{0pt}{10pt}{5pt}
+
+%	设置引用格式（ACS格式规范）
+%	注意：请安装JabRef
+%	JabRef使用参考：https://blog.csdn.net/weixin_44191286/article/details/85698921
+\usepackage[super,round,comma,compress]{natbib}
+
+%	数学公式增强
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+%	设置封面
+\begin{document}
+    % 标题页
+
+\input{chapters/0-title}
+
+\input{chapters/1-intro}
+
+\end{document}

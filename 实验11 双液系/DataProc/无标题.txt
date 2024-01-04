@@ -1,0 +1,30 @@
+考虑乙醇质量分数的误差:
+$$
+\sigma_{\omega_{E t O H}}=\sqrt{\left(\frac{\partial \omega}{\partial a} \sigma_a\right)^2+\left(\frac{\partial \omega}{\partial b} \sigma_b\right)^2+\left(\frac{\partial \omega}{\partial c} \sigma_c\right)^2+\left(\frac{\partial \omega}{\partial n} \sigma_n\right)^2}
+$$
+
+在公式 2 中的，a、b、c 分别指代拟合工作曲线 1 式中的二次项、一次项系数和常数项。
+$$
+\omega=\frac{-b-\sqrt{b^2-4 a(c-n)}}{2 a}
+$$
+
+对于公式 3 , 我们最关心最低恒沸点的误差情况, 此时 $n=1.3970$, 则有:
+$$
+\begin{aligned}
+\Delta & =\sqrt{b^2-4 a(c-n)} \\
+& =\sqrt{(-0.07891)^2-4 \times 0.0148 \times(1.42057-1.3970)}=0.069509 \\
+\frac{\partial \omega}{\partial a} & =\frac{-\frac{4 a(c-n)}{\Delta}-2(b+\Delta)}{4 a^2} \\
+& =\frac{-\frac{4 \times 0.0148 \times(1.4206-1.3970)}{0.069509}-2(-0.07891+0.069509)}{4 \times 0.0148^2}=-1.452 \\
+\frac{\partial \omega}{\partial b} & =-\frac{\Delta+b}{2 a \Delta} \\
+& =-\frac{0.069509-0.07891}{2 \times 0.0148 \times 0.069509}=4.569 \\
+\frac{\partial \omega}{\partial c} & =\frac{2 a}{\Delta} \\
+& =\frac{2 \times 0.0148}{0.069509}=0.4258 \\
+\frac{\partial \omega}{\partial n} & =-\frac{2 a}{\Delta} \\
+& =-\frac{2 \times 0.0148}{0.069509}=-0.4258
+\end{aligned}
+$$
+
+根据线性拟合的结果，有 $\sigma_a=0.00169, \sigma_b=0.00176, \sigma_c=0.0003778, \sigma_n=0.002$;综合以上诸式, 则有:
+$$
+\sigma_{\omega_{E t O H}}=\sqrt{\left(\frac{\partial \omega}{\partial a} \sigma_a\right)^2+\left(\frac{\partial \omega}{\partial b} \sigma_b\right)^2+\left(\frac{\partial \omega}{\partial c} \sigma_c\right)^2+\left(\frac{\partial \omega}{\partial n} \sigma_n\right)^2}
+$$

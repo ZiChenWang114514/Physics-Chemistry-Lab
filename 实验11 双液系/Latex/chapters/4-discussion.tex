@@ -1,0 +1,134 @@
+\section{结果与讨论}
+
+\subsection{误差分析}
+
+\subsubsection{实验结果与文献值的偏差}
+
+根据文献\cite{haynes2016crc}，在压强\SI{102.26}{kPa}下，乙醇-环己烷体系的最低恒沸点为\SI{64.80}{\celsius}，此
+时乙醇的摩尔分数为0.4540，则有：
+
+$$
+\begin{aligned}
+\chi_{\ce{EtOH}} & =\frac{m_{\ce{EtOH}}}{m_{\text {tot. }}} \\
+& =\frac{M_{\ce{EtOH}} x_{\ce{EtOH}}}{M_{\ce{EtOH}} x_{\ce{EtOH}}+M_{\ce{CyH}}\left(1-x_{\ce{EtOH}}\right)} \\
+& =\frac{46.07 \times 0.4540}{46.07 \times 0.4540+84.16 \times(1-0.4540)} \\
+& =0.3128
+\end{aligned}
+$$
+
+本实验实际测定时的气压为\SI{102.21}{kPa}，与文献值的偏差小于千分之一，可以认为实验气压近似等于\SI{102.26}{kPa}。
+
+因此，可以得到乙醇-环己烷体系最低恒沸点的相对误差：
+\[
+\sigma_T = \frac{65.49-64.80}{64.80} = 1.06\%
+\]
+最低恒沸点对应乙醇质量分数的相对误差:
+\[
+\sigma_{\chi_{\rm{EtOH}}} = \frac{0.3171-0.3128}{0.3128}=1.37\%
+\]
+
+由此可见，本实验测定得到的乙醇-环己烷体系的最低恒沸点与文献值很接近，证明实验相对理想。
+
+\subsubsection{实验的误差来源}
+
+由于最低恒沸点的选取涉及到B-spline插值的问题、求导、取交点的问题，难以显式地推导误差的传递。因此，不妨讨论在最低恒沸点时，由标准工作曲线计算乙醇质量分数所带来的误差。
+
+考虑使用二次拟合的曲线公式 \eqref{eq:1}，为了更方便的估计在最低恒沸点附近，使用工作曲线反向求解得到的误差，我们选取气相线的折射率最低点$n=1.3963$，已知折射率 $n$ 的情况下，得到乙醇-环己烷体系的乙醇质量分数 $\chi_{\rm{EtOH}}$：（以下内容全部由Python SymPy库的自动求导函数求出，并自动转化为Latex表达式，因此在过程中会有一些繁琐的步骤）
+\begin{equation*}
+\begin{aligned}
+    \chi_{\rm{EtOH}}&=\frac{- b - \left(- 4 a \left(c - n\right) + b^{2}\right)^{0.5}}{2 a}\\
+    &=\frac{- \left(-0.07888\right) - \left(- 4 \times \left(0.01371\right) \times \left(\left(1.4208\right) - \left(1.3963\right)\right) + \left(-0.07888\right)^{2}\right)^{0.5}}{2 \times \left(0.01371\right)}\\
+    &=0.3295\ 
+\end{aligned}
+\end{equation*}
+
+求偏导数：
+\begin{equation*}
+\begin{aligned}
+\frac{\partial \chi_{\rm{EtOH}} }{\partial a }&=\frac{a \left(c - n\right) + \dfrac{\left(b + \left(- 4 a \left(c - n\right) + b^{2}\right)^{0.5}\right) \left(- 4 a \left(c - n\right) + b^{2}\right)^{0.5}}{2}}{a^{2} \left(- 4 a \left(c - n\right) + b^{2}\right)^{0.5}}\\
+&=\left[\left(0.01371\right) \times \left(\left(1.4208\right) - \left(1.3963\right)\right) + \right.\\
+&\quad\frac{1}{2}\times\left(\left(-0.07888\right) + \left(- 4 \times \left(0.01371\right) \times \left(\left(1.4208\right) - \left(1.3963\right)\right) + \left(-0.07888\right)^{2}\right)^{0.5}\right) \\
+&\quad\times\left. \left(- 4 \times \left(0.01371\right) \times \left(\left(1.4208\right) - \left(1.3963\right)\right) + \left(-0.07888\right)^{2}\right)^{0.5}\right]\\
+&\quad\left[{\left(0.01371\right)^{2} \times \left(- 4 \times \left(0.01371\right) \times \left(\left(1.4208\right) - \left(1.3963\right)\right) + \left(-0.07888\right)^{2}\right)^{0.5}}\right]^{-1}\\
+&=1.6\\ 
+\frac{\partial \chi_{\rm{EtOH}} }{\partial b }&=- \frac{0.5 b}{a \left(- 4 a c + 4 a n + b^{2}\right)^{0.5}} - \frac{1}{2 a}\\
+&=- \frac{0.5 \times \left(-0.07888\right)}{\left(0.01371\right) \times \left(- 4 \times \left(0.01371\right) \times \left(1.4208\right) + 4 \times \left(0.01371\right) \times \left(1.3963\right) + \left(-0.07888\right)^{2}\right)^{0.5}} -\\
+&\quad\frac{1}{2 \times \left(0.01371\right)}=4.7\\
+\frac{\partial \chi_{\rm{EtOH}} }{\partial c }
+&=\frac{1.0}{\left(- 4 a \left(c - n\right) + b^{2}\right)^{0.5}}\\
+&=\frac{1.0}{\left(- 4 \times \left(0.01371\right) \times \left(\left(1.4208\right) - \left(1.3963\right)\right) + \left(-0.07888\right)^{2}\right)^{0.5}}=14.0\\
+\frac{\partial \chi_{\rm{EtOH}} }{\partial n }&=- \frac{1.0}{\left(- 4 a \left(c - n\right) + b^{2}\right)^{0.5}}\\
+&=- \frac{1.0}{\left(- 4 \times \left(0.01371\right) \times \left(\left(1.4208\right) - \left(1.3963\right)\right) + \left(-0.07888\right)^{2}\right)^{0.5}}=-14.0\\
+\end{aligned}
+\end{equation*}
+
+计算误差：
+\begin{equation*}
+\begin{aligned}
+\sigma_{\chi_{\rm{EtOH}}}&=\sqrt{\left(\frac{\partial \chi_{\rm{EtOH}} }{\partial a } \sigma_{a}\right)^2+\left(\frac{\partial \chi_{\rm{EtOH}} }{\partial b } \sigma_{b}\right)^2+\left(\frac{\partial \chi_{\rm{EtOH}} }{\partial c } \sigma_{c}\right)^2+\left(\frac{\partial \chi_{\rm{EtOH}} }{\partial n } \sigma_{n}\right)^2}\\
+&=\sqrt{\left(1.6 \times 0.0026\right)^2+\left(4.7 \times 0.0027\right)^2+\left(14.0 \times 0.0006\right)^2+\left(-14.0 \times 0.0003\right)^2}\\
+&=\sqrt{\left(0.004\right)^2+\left(0.013\right)^2+\left(0.0086\right)^2+\left(-0.0043\right)^2}\\
+&=0.016\
+\end{aligned}
+\end{equation*}
+
+最终，得到乙醇-环己烷体系的乙醇质量分数 $\chi_{\rm{EtOH}}$：
+\begin{equation*}
+\chi_{\rm{EtOH}}=\left (0.330 \pm 0.016 \right )\
+\end{equation*}
+
+由此可见，在最低恒沸点附近，使用工作曲线反向解出的乙醇质量分数 $\chi_{\rm{EtOH}}$ 的误差约为 $0.0016$，不妨假设最低恒沸点处的误差与之相同。
+
+由此可见，误差的主要来源是线性拟合中的一次项，也即工作曲线本身的拟合误差。
+
+\subsection{思考题}
+
+\subsubsection{本实验中，气液两相是如何达到平衡的？}
+
+在使用恒沸点仪测定乙醇-环己烷二元气液相图时，气液两相达到平衡的过程通常遵循以下步骤：
+
+\begin{enumerate}
+    \item 加热和蒸发：混合液体被加热，其中一部分蒸发成气体。这个过程开始时，气体和液体的组成可能不同。
+    \item 再凝结和回流：蒸发成气体的混合物被冷凝成液体，然后返回到混合物中。这个过程称为回流。
+    \item 达到平衡：通过不断的蒸发和回流，气体和液体的组成逐渐接近一致，最终达到相平衡。在相平衡状态下，气体和液体的组成在给定的温度和压力下保持恒定。
+\end{enumerate}
+
+\subsubsection{冷凝管$D$处的体积太大，会有怎样的后果？}
+
+如果在支管与冷凝管处的体积太大，可能会有以下后果：
+
+\begin{enumerate}
+    \item 延迟达到平衡：较大的体积意味着更多的液体可以蒸发并进入冷凝管。这可能导致达到真正的气液平衡状态需要更长的时间，因为需要更多的物质在气液之间转移。
+    \item 组成分布不均：在较大的体积中，可能会出现组成分布不均匀的情况。例如，在某些区域，蒸汽可能会富集一种组分，而在其他区域则可能富集另一种组分。这可以影响最终测量的准确性。
+    \item 热量损失：较大的体积也可能导致更多的热量损失，影响系统的热平衡，进而影响平衡温度的测定。
+\end{enumerate}
+
+\subsubsection{平衡时气-液两相温度应不应该一样？实际是否一样？如何防止温度的差异？}
+
+在理想情况下，气-液两相平衡时的温度应该是相同的。这是因为相平衡是指在一定温度和压力下，气体和液体的化学势达到相等，从而没有物质的净迁移。在这种状态下，气体和液体应处于同一温度。
+
+然而，在实际操作中，气-液两相的温度可能会有所不同，原因可能包括：
+
+\begin{enumerate}
+    \item 系统热不均匀：在实验过程中，由于加热方式、热传导和热对流的影响，系统中可能存在温度梯度。
+    \item 冷凝和蒸发过程：蒸发是吸热过程，而冷凝是放热过程。如果冷凝和蒸发的热量没有被完全交换，这可能导致气相和液相的温度不一致。
+\end{enumerate}
+
+为了尽量减少气-液两相温度的差异，可以采取以下措施：
+
+\begin{enumerate}
+    \item 优化加热系统，减少热损失：使用均匀加热的设备，确保整个系统的温度分布尽可能均匀，通过隔热材料和设计来减少热量的外泄，保持系统的热稳定性。在本实验中，即使用了棉线作为隔热材料，包裹玻璃仪器，以减少热交换及其带来的热损失。
+    \item 提高热交换效率：使用有效的热交换装置，如高效冷凝器，确保蒸发和冷凝过程中的热量能够有效交换。本实验中，使用电阻丝加热，电阻丝的热交换效率较高。
+    \item 实时监控温度：在气相和液相中均设置温度传感器，实时监测温度差异，并根据需要调整实验条件。在本实验中，有且仅有一个温度传感器，这显然是不够的，应该增加温度传感器的个数，以实现更好的温度监控。
+\end{enumerate}
+
+\subsection{实验的问题与改进}
+
+实际实验中，由于加热用的电阻丝位于蒸馏烧瓶底部，且整个系统保温较差，蒸馏烧瓶内存在自下而上的温度梯度，靠近电阻丝的部分温度较高，而远离电阻丝的冷凝管处温度显著较低，且冷凝管内也存在自下而上的温度梯度，产生了显著的分馏现象，从而使得所测得的液相组分并非测量温度下的实际组分，造成了一定的实验误差，可能因此导致了恒沸混合物 $\chi_{\rm{EtOH}}$ 与文献参考值的偏离。
+
+解决方法：使用恒温水浴槽将体系浸没，或在体系外包裹更加有效的保温隔热材料，以消除体系内部的温度梯度\cite{song2020temperature}。
+
+\subsection{实验总结}
+
+本实验测量了阿贝折射仪的工作曲线，并通过测量不同质量分数的乙醇-环已烷恒沸体系气相和液相的折射率从而确定其质量分数，绘制了乙醇-环已烷双液体系的相图,求得这个体系的最低恒沸点为 $65.49^{\circ} \mathrm{C}$，对应的乙醇的质量分数为 $0.3171$，与文献值基本接近，主要的误差来源为工作曲线的测定与拟合。
+

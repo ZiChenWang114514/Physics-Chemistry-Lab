@@ -1,0 +1,537 @@
+ Entering Gaussian System, Link 0=g16
+ Initial command:
+ /home/zcwang/Gaussian16_AVX2/g16/l1.exe "/home/zcwang/Gaussian16_AVX2/g16/tmp/Gau-5192.inp" -scrdir="/home/zcwang/Gaussian16_AVX2/g16/tmp/"
+ Default is to use a total of   4 processors:
+                                4 via shared-memory
+                                1 via Linda
+ Entering Link 1 = /home/zcwang/Gaussian16_AVX2/g16/l1.exe PID=      5194.
+  
+ Copyright (c) 1988-2021, Gaussian, Inc.  All Rights Reserved.
+  
+ This is part of the Gaussian(R) 16 program.  It is based on
+ the Gaussian(R) 09 system (copyright 2009, Gaussian, Inc.),
+ the Gaussian(R) 03 system (copyright 2003, Gaussian, Inc.),
+ the Gaussian(R) 98 system (copyright 1998, Gaussian, Inc.),
+ the Gaussian(R) 94 system (copyright 1995, Gaussian, Inc.),
+ the Gaussian 92(TM) system (copyright 1992, Gaussian, Inc.),
+ the Gaussian 90(TM) system (copyright 1990, Gaussian, Inc.),
+ the Gaussian 88(TM) system (copyright 1988, Gaussian, Inc.),
+ the Gaussian 86(TM) system (copyright 1986, Carnegie Mellon
+ University), and the Gaussian 82(TM) system (copyright 1983,
+ Carnegie Mellon University). Gaussian is a federally registered
+ trademark of Gaussian, Inc.
+  
+ This software contains proprietary and confidential information,
+ including trade secrets, belonging to Gaussian, Inc.
+  
+ This software is provided under written license and may be
+ used, copied, transmitted, or stored only in accord with that
+ written license.
+  
+ The following legend is applicable only to US Government
+ contracts under FAR:
+  
+                    RESTRICTED RIGHTS LEGEND
+  
+ Use, reproduction and disclosure by the US Government is
+ subject to restrictions as set forth in subparagraphs (a)
+ and (c) of the Commercial Computer Software - Restricted
+ Rights clause in FAR 52.227-19.
+  
+ Gaussian, Inc.
+ 340 Quinnipiac St., Bldg. 40, Wallingford CT 06492
+  
+  
+ ---------------------------------------------------------------
+ Warning -- This program may not be used in any manner that
+ competes with the business of Gaussian, Inc. or will provide
+ assistance to any competitor of Gaussian, Inc.  The licensee
+ of this program is prohibited from giving any competitor of
+ Gaussian, Inc. access to this program.  By using this program,
+ the user acknowledges that Gaussian, Inc. is engaged in the
+ business of creating and licensing software in the field of
+ computational chemistry and represents and warrants to the
+ licensee that it is not a competitor of Gaussian, Inc. and that
+ it will not use this program in any manner prohibited above.
+ ---------------------------------------------------------------
+  
+
+ Cite this work as:
+ Gaussian 16, Revision C.02,
+ M. J. Frisch, G. W. Trucks, H. B. Schlegel, G. E. Scuseria, 
+ M. A. Robb, J. R. Cheeseman, G. Scalmani, V. Barone, 
+ G. A. Petersson, H. Nakatsuji, X. Li, M. Caricato, A. V. Marenich, 
+ J. Bloino, B. G. Janesko, R. Gomperts, B. Mennucci, H. P. Hratchian, 
+ J. V. Ortiz, A. F. Izmaylov, J. L. Sonnenberg, D. Williams-Young, 
+ F. Ding, F. Lipparini, F. Egidi, J. Goings, B. Peng, A. Petrone, 
+ T. Henderson, D. Ranasinghe, V. G. Zakrzewski, J. Gao, N. Rega, 
+ G. Zheng, W. Liang, M. Hada, M. Ehara, K. Toyota, R. Fukuda, 
+ J. Hasegawa, M. Ishida, T. Nakajima, Y. Honda, O. Kitao, H. Nakai, 
+ T. Vreven, K. Throssell, J. A. Montgomery, Jr., J. E. Peralta, 
+ F. Ogliaro, M. J. Bearpark, J. J. Heyd, E. N. Brothers, K. N. Kudin, 
+ V. N. Staroverov, T. A. Keith, R. Kobayashi, J. Normand, 
+ K. Raghavachari, A. P. Rendell, J. C. Burant, S. S. Iyengar, 
+ J. Tomasi, M. Cossi, J. M. Millam, M. Klene, C. Adamo, R. Cammi, 
+ J. W. Ochterski, R. L. Martin, K. Morokuma, O. Farkas, 
+ J. B. Foresman, and D. J. Fox, Gaussian, Inc., Wallingford CT, 2019.
+ 
+ ******************************************
+ Gaussian 16:  ES64L-G16RevC.02  7-Dec-2021
+                 2-Nov-2023 
+ ******************************************
+ %nprocshared=16
+ Will use up to   16 processors via shared memory.
+ %mem=4000MB
+ --------------------------------------------------------------
+ # td=(nstates=100) b3lyp/6-31g(d,p) scrf(smd, solvent=ethanol)
+ --------------------------------------------------------------
+ 1/38=1,172=1/1;
+ 2/12=2,17=6,18=5,40=1/2;
+ 3/5=1,6=6,7=101,11=9,25=1,30=1,70=32201,72=4,74=-5/1,2,3,8;
+ 4//1;
+ 5/5=2,38=5,53=4/2;
+ 8/6=1,10=2,108=100/1;
+ 9/41=100,42=1,70=2/14;
+ 6/7=2,8=2,9=2,10=2/1;
+ 99/5=1,9=1/99;
+ ---
+ A-4
+ ---
+ Symbolic Z-matrix:
+ Charge =  1 Multiplicity = 1
+ C                    -3.66371  -1.05195  -0.11156 
+ C                    -2.38964  -0.47998  -0.08346 
+ C                    -1.19497  -1.195    -0.06404 
+ C                     0.05835  -0.57832  -0.03561 
+ C                    -4.85534  -0.32376  -0.12489 
+ S                    -4.92666   1.43671  -0.06062 
+ C                    -6.68823   1.40203  -0.08329 
+ C                    -7.15496   0.07936  -0.13945 
+ N                    -6.11186  -0.85727  -0.18359 
+ C                    -7.56515   2.4827   -0.04892 
+ C                    -8.93496   2.22022  -0.06579 
+ C                    -9.40707   0.90276  -0.11322 
+ C                    -8.52936  -0.17953  -0.14882 
+ C                    -6.36628  -2.30687  -0.24831 
+ C                    -6.46714  -2.95588   1.13326 
+ C                     1.28216  -1.24609  -0.01605 
+ C                     2.51113  -0.58289   0.01194 
+ C                     3.74122  -1.24435  -0.00844 
+ C                     5.05244  -0.74902   0.00881 
+ S                     6.36259  -1.86699  -0.36529 
+ C                     7.56298  -0.60081  -0.16552 
+ C                     6.94102   0.61236   0.16985 
+ N                     5.54483   0.4953    0.28326 
+ C                     8.94627  -0.69554  -0.30211 
+ C                     9.70836   0.45414  -0.1007 
+ C                     9.09298   1.66866   0.22877 
+ C                     7.70945   1.76455   0.3665 
+ C                     4.73281   1.62303   0.77014 
+ C                     4.28228   2.56989  -0.34424 
+ H                    -3.73183  -2.13483  -0.11343 
+ H                    -2.31025   0.60799  -0.07629 
+ H                    -1.23762  -2.28343  -0.07261 
+ H                     0.07916   0.51298  -0.02766 
+ H                    -7.19294   3.50135  -0.00844 
+ H                    -9.63821   3.04629  -0.03843 
+ H                    -10.47604   0.71486  -0.1197 
+ H                    -8.91454  -1.19267  -0.17489 
+ H                    -7.28921  -2.44204  -0.81662 
+ H                    -5.57073  -2.7575   -0.84565 
+ H                    -6.66636  -4.02676   1.02338 
+ H                    -5.53664  -2.83556   1.69652 
+ H                    -7.28005  -2.51465   1.718 
+ H                     1.27987  -2.33528  -0.02423 
+ H                     2.47239   0.50228   0.01364 
+ H                     3.69108  -2.32677  -0.1054 
+ H                     9.41663  -1.63929  -0.55871 
+ H                     10.78759   0.40544  -0.2035 
+ H                     9.70031   2.55586   0.37729 
+ H                     7.25129   2.71614   0.61119 
+ H                     3.88711   1.20264   1.31689 
+ H                     5.34278   2.15493   1.50515 
+ H                     3.66872   2.05491  -1.08995 
+ H                     3.6925    3.38719   0.08394 
+ H                     5.14149   3.00595  -0.86259 
+ 
+ Stoichiometry    C25H25N2S2(1+)
+ Framework group  C1[X(C25H25N2S2)]
+ Deg. of freedom   156
+ Full point group                 C1      NOp   1
+ Largest Abelian subgroup         C1      NOp   1
+ Largest concise Abelian subgroup C1      NOp   1
+                         Standard orientation:                         
+ ---------------------------------------------------------------------
+ Center     Atomic      Atomic             Coordinates (Angstroms)
+ Number     Number       Type             X           Y           Z
+ ---------------------------------------------------------------------
+      1          6           0       -3.663712   -1.051948   -0.111557
+      2          6           0       -2.389638   -0.479979   -0.083458
+      3          6           0       -1.194967   -1.195004   -0.064041
+      4          6           0        0.058349   -0.578322   -0.035613
+      5          6           0       -4.855344   -0.323764   -0.124892
+      6         16           0       -4.926662    1.436711   -0.060618
+      7          6           0       -6.688233    1.402029   -0.083292
+      8          6           0       -7.154955    0.079357   -0.139452
+      9          7           0       -6.111858   -0.857268   -0.183590
+     10          6           0       -7.565153    2.482703   -0.048916
+     11          6           0       -8.934956    2.220220   -0.065794
+     12          6           0       -9.407072    0.902760   -0.113224
+     13          6           0       -8.529361   -0.179533   -0.148820
+     14          6           0       -6.366284   -2.306872   -0.248314
+     15          6           0       -6.467137   -2.955883    1.133259
+     16          6           0        1.282162   -1.246091   -0.016052
+     17          6           0        2.511127   -0.582889    0.011938
+     18          6           0        3.741215   -1.244345   -0.008435
+     19          6           0        5.052439   -0.749020    0.008808
+     20         16           0        6.362590   -1.866987   -0.365292
+     21          6           0        7.562983   -0.600806   -0.165520
+     22          6           0        6.941017    0.612357    0.169846
+     23          7           0        5.544832    0.495298    0.283261
+     24          6           0        8.946272   -0.695535   -0.302110
+     25          6           0        9.708364    0.454142   -0.100703
+     26          6           0        9.092982    1.668657    0.228770
+     27          6           0        7.709445    1.764545    0.366500
+     28          6           0        4.732809    1.623027    0.770139
+     29          6           0        4.282282    2.569892   -0.344236
+     30          1           0       -3.731831   -2.134826   -0.113428
+     31          1           0       -2.310249    0.607987   -0.076294
+     32          1           0       -1.237617   -2.283434   -0.072611
+     33          1           0        0.079156    0.512977   -0.027655
+     34          1           0       -7.192939    3.501353   -0.008437
+     35          1           0       -9.638205    3.046285   -0.038434
+     36          1           0      -10.476042    0.714855   -0.119701
+     37          1           0       -8.914544   -1.192671   -0.174894
+     38          1           0       -7.289207   -2.442036   -0.816617
+     39          1           0       -5.570728   -2.757498   -0.845647
+     40          1           0       -6.666359   -4.026758    1.023381
+     41          1           0       -5.536643   -2.835556    1.696522
+     42          1           0       -7.280055   -2.514652    1.717995
+     43          1           0        1.279871   -2.335280   -0.024232
+     44          1           0        2.472390    0.502280    0.013643
+     45          1           0        3.691082   -2.326769   -0.105404
+     46          1           0        9.416627   -1.639291   -0.558710
+     47          1           0       10.787594    0.405440   -0.203502
+     48          1           0        9.700309    2.555856    0.377290
+     49          1           0        7.251286    2.716142    0.611187
+     50          1           0        3.887111    1.202637    1.316886
+     51          1           0        5.342782    2.154926    1.505154
+     52          1           0        3.668719    2.054906   -1.089954
+     53          1           0        3.692500    3.387191    0.083941
+     54          1           0        5.141488    3.005946   -0.862588
+ ---------------------------------------------------------------------
+ Rotational constants (GHZ):           0.5052897           0.0306476           0.0290656
+ Standard basis: 6-31G(d,p) (6D, 7F)
+ There are   568 symmetry adapted cartesian basis functions of A   symmetry.
+ There are   568 symmetry adapted basis functions of A   symmetry.
+   568 basis functions,  1035 primitive gaussians,   568 cartesian basis functions
+   110 alpha electrons      110 beta electrons
+       nuclear repulsion energy      2585.8618479399 Hartrees.
+ NAtoms=   54 NActive=   54 NUniq=   54 SFac= 1.00D+00 NAtFMM=   60 NAOKFM=F Big=F
+ Integral buffers will be    131072 words long.
+ Regular integral format.
+ Two-electron integral symmetry is turned on.
+ ------------------------------------------------------------------------------
+ Polarizable Continuum Model (PCM)
+ =================================
+ Model                : PCM.
+ Atomic radii         : SMD-Coulomb.
+ Polarization charges : Total charges.
+ Charge compensation  : None.
+ Solution method      : On-the-fly selection.
+ Cavity type          : VdW (van der Waals Surface) (Alpha=1.000).
+ Cavity algorithm     : GePol (No added spheres)
+                        Default sphere list used, NSphG=   54.
+                        Lebedev-Laikov grids with approx.  5.0 points / Ang**2.
+                        Smoothing algorithm: York/Karplus (Gamma=1.0000).
+                        Polarization charges: spherical gaussians, with
+                                              point-specific exponents (IZeta= 3).
+                        Self-potential: point-specific (ISelfS= 7).
+                        Self-field    : sphere-specific E.n sum rule (ISelfD= 2).
+ Solvent              : Ethanol, Eps=  24.852000 Eps(inf)=   1.852593
+ ------------------------------------------------------------------------------
+ ------------------------------------------------------------------------------
+ Atomic radii for non-electrostatic terms: SMD-CDS.
+ ------------------------------------------------------------------------------
+ Nuclear repulsion after PCM non-electrostatic terms =     2585.8550298034 Hartrees.
+ One-electron integrals computed using PRISM.
+ NBasis=   568 RedAO= T EigKep=  4.48D-04  NBF=   568
+ NBsUse=   568 1.00D-06 EigRej= -1.00D+00 NBFU=   568
+ ExpMin= 1.17D-01 ExpMax= 2.19D+04 ExpMxC= 3.30D+03 IAcc=3 IRadAn=         5 AccDes= 0.00D+00
+ Harris functional with IExCor=  402 and IRadAn=       5 diagonalized for initial guess.
+ HarFok:  IExCor=  402 AccDes= 0.00D+00 IRadAn=         5 IDoV= 1 UseB2=F ITyADJ=14
+ ICtDFT=  3500011 ScaDFX=  1.000000  1.000000  1.000000  1.000000
+ FoFCou: FMM=F IPFlag=           0 FMFlag=      100000 FMFlg1=           0
+         NFxFlg=           0 DoJE=T BraDBF=F KetDBF=T FulRan=T
+         wScrn=  0.000000 ICntrl=       500 IOpCl=  0 I1Cent=   200000004 NGrid=           0
+         NMat0=    1 NMatS0=      1 NMatT0=    0 NMatD0=    1 NMtDS0=    0 NMtDT0=    0
+ Petite list used in FoFCou.
+ Requested convergence on RMS density matrix=1.00D-08 within 128 cycles.
+ Requested convergence on MAX density matrix=1.00D-06.
+ Requested convergence on             energy=1.00D-06.
+ No special actions if energy rises.
+ Inv3:  Mode=1 IEnd=    53425200.
+ Iteration    1 A*A^-1 deviation from unit magnitude is 3.33D-15 for   3966.
+ Iteration    1 A*A^-1 deviation from orthogonality  is 2.21D-15 for   1575   1161.
+ Iteration    1 A^-1*A deviation from unit magnitude is 3.33D-15 for   3966.
+ Iteration    1 A^-1*A deviation from orthogonality  is 4.57D-15 for    636    388.
+ Error on total polarization charges =  0.05688
+ SCF Done:  E(RB3LYP) =  -1873.50843322     A.U. after   13 cycles
+            NFock= 13  Conv=0.78D-08     -V/T= 2.0071
+ SMD-CDS (non-electrostatic) energy       (kcal/mol) =      -4.28
+ (included in total energy above)
+ DoSCS=F DFT=T ScalE2(SS,OS)=  1.000000  1.000000
+ ExpMin= 1.17D-01 ExpMax= 2.19D+04 ExpMxC= 3.30D+03 IAcc=3 IRadAn=         5 AccDes= 0.00D+00
+ HarFok:  IExCor=  205 AccDes= 0.00D+00 IRadAn=         5 IDoV=-2 UseB2=F ITyADJ=14
+ ICtDFT= 12500011 ScaDFX=  1.000000  1.000000  1.000000  1.000000
+ GSVD:  LWork=       -1665 too small for GESVD, short by        7400 words or        7400 for optimal perf.
+ Range of M.O.s used for correlation:    38   568
+ NBasis=   568 NAE=   110 NBE=   110 NFC=    37 NFV=     0
+ NROrb=    531 NOA=    73 NOB=    73 NVA=   458 NVB=   458
+
+ **** Warning!!: The smallest alpha delta epsilon is  0.77540256D-01
+
+ NEqPCM:  Using non-equilibrium solvation (IEInf=1, Eps=  24.8520, EpsInf=   1.8526)
+ Inv3:  Mode=1 IEnd=    53425200.
+ Iteration    1 A*A^-1 deviation from unit magnitude is 3.55D-15 for   2136.
+ Iteration    1 A*A^-1 deviation from orthogonality  is 1.99D-15 for   1384    852.
+ Iteration    1 A^-1*A deviation from unit magnitude is 3.11D-15 for    734.
+ Iteration    1 A^-1*A deviation from orthogonality  is 2.66D-15 for   2216     91.
+ Orbital symmetries:
+       Occupied  (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A)
+       Virtual   (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A) (A)
+                 (A) (A)
+   400 initial guesses have been made.
+ Convergence on wavefunction:    0.001000000000000
+ Iteration     1 Dimension   400 NMult     0 NNew    400
+ CISAX will form    32 AO SS matrices at one time.
+ New state      3 was old state      4
+ New state      4 was old state      5
+ New state      5 was old state      9
+ New state      7 was old state      8
+ New state      8 was old state      3
+ New state      9 was old state     11
+ New state     10 was old state      7
+ New state     11 was old state     10
+ New state     13 was old state     14
+ New state     14 was old state     13
+ New state     16 was old state     18
+ New state     17 was old state     23
+ New state     18 was old state     20
+ New state     19 was old state     21
+ New state     20 was old state     22
+ New state     21 was old state     26
+ New state     22 was old state     25
+ New state     23 was old state     27
+ New state     24 was old state     33
+ New state     25 was old state     42
+ New state     26 was old state     17
+ New state     27 was old state     24
+ New state     28 was old state     36
+ New state     29 was old state     38
+ New state     30 was old state     44
+ New state     31 was old state     35
+ New state     32 was old state     28
+ New state     33 was old state     40
+ New state     34 was old state     31
+ New state     35 was old state     49
+ New state     36 was old state     41
+ New state     37 was old state     39
+ New state     38 was old state     45
+ New state     39 was old state     50
+ New state     40 was old state     48
+ New state     41 was old state     53
+ New state     42 was old state     32
+ New state     43 was old state     34
+ New state     44 was old state     30
+ New state     45 was old state     51
+ New state     46 was old state     54
+ New state     47 was old state     55
+ New state     48 was old state     46
+ New state     49 was old state     43
+ New state     50 was old state     58
+ New state     51 was old state     56
+ New state     52 was old state     47
+ New state     53 was old state     52
+ New state     54 was old state     59
+ New state     55 was old state     61
+ New state     56 was old state     60
+ New state     57 was old state     62
+ New state     58 was old state     65
+ New state     59 was old state     64
+ New state     60 was old state     68
+ New state     61 was old state     66
+ New state     62 was old state     72
+ New state     63 was old state     70
+ New state     64 was old state     57
+ New state     65 was old state     71
+ New state     66 was old state     67
+ New state     67 was old state     69
+ New state     68 was old state     76
+ New state     69 was old state     80
+ New state     70 was old state     75
+ New state     71 was old state     83
+ New state     72 was old state     74
+ New state     73 was old state     77
+ New state     74 was old state     78
+ New state     75 was old state     88
+ New state     76 was old state    101
+ New state     77 was old state    106
+ New state     78 was old state    115
+ New state     79 was old state     81
+ New state     80 was old state     73
+ New state     81 was old state     85
+ New state     82 was old state     93
+ New state     83 was old state     84
+ New state     84 was old state     82
+ New state     85 was old state     96
+ New state     86 was old state     79
+ New state     87 was old state     89
+ New state     88 was old state     95
+ New state     89 was old state     94
+ New state     90 was old state    102
+ New state     91 was old state     86
+ New state     92 was old state    114
+ New state     93 was old state    125
+ New state     94 was old state    145
+ New state     95 was old state    100
+ New state     96 was old state    112
+ New state     97 was old state    107
+ New state     98 was old state     99
+ New state     99 was old state     97
+ New state    100 was old state    124
+ Iteration     2 Dimension   600 NMult   400 NNew    200
+ New state      5 was old state      6
+ New state      6 was old state      5
+ New state      9 was old state     10
+ New state     10 was old state      9
+ New state     17 was old state     18
+ New state     18 was old state     22
+ New state     20 was old state     17
+ New state     21 was old state     20
+ New state     22 was old state     23
+ New state     23 was old state     21
+ New state     24 was old state     27
+ New state     25 was old state     24
+ New state     27 was old state     25
+ New state     29 was old state     31
+ New state     30 was old state     29
+ New state     31 was old state     30
+ New state     33 was old state     37
+ New state     34 was old state     44
+ New state     35 was old state     36
+ New state     36 was old state     33
+ New state     37 was old state     35
+ New state     38 was old state     34
+ No map to state     39
+ New state     40 was old state     41
+ New state     41 was old state     38
+ New state     42 was old state     39
+ New state     43 was old state     40
+ New state     44 was old state     49
+ New state     45 was old state     43
+ New state     46 was old state     45
+ New state     47 was old state     51
+ New state     48 was old state     46
+ New state     49 was old state     48
+ New state     50 was old state     47
+ New state     51 was old state     52
+ New state     52 was old state     50
+ New state     53 was old state     57
+ New state     54 was old state     53
+ New state     55 was old state     56
+ New state     56 was old state     54
+ New state     57 was old state     55
+ New state     58 was old state     66
+ New state     59 was old state     61
+ New state     60 was old state     58
+ New state     61 was old state     59
+ New state     62 was old state     60
+ New state     63 was old state     64
+ New state     64 was old state     62
+ New state     65 was old state     63
+ New state     66 was old state     67
+ New state     67 was old state     69
+ New state     68 was old state     73
+ New state     69 was old state     65
+ New state     70 was old state     80
+ New state     71 was old state     72
+ New state     72 was old state     68
+ New state     73 was old state     71
+ New state     74 was old state     88
+ New state     75 was old state     74
+ New state     76 was old state     75
+ New state     77 was old state     76
+ New state     78 was old state     70
+ New state     79 was old state     82
+ New state     80 was old state     78
+ New state     81 was old state     77
+ New state     82 was old state     79
+ New state     83 was old state     84
+ New state     84 was old state     81
+ New state     85 was old state     86
+ New state     86 was old state     85
+ New state     87 was old state     83
+ New state     88 was old state     89
+ New state     89 was old state     87
+ New state     90 was old state     92
+ New state     92 was old state     90
+ New state     93 was old state     99
+ New state     94 was old state     98
+ New state     95 was old state     93
+ New state     96 was old state     95
+ New state     97 was old state     94
+ New state     98 was old state     97
+ New state     99 was old state    115
+ New state    100 was old state     96
+ Iteration     3 Dimension   800 NMult   600 NNew    200
+Erroneous write. Write -1 instead of 105973664.
+fd = 4
+orig len = 106988800 left = 105973664
+g_write

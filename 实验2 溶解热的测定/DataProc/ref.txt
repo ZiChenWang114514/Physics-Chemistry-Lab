@@ -1,0 +1,40 @@
+观察以下格式-内容的对应关系，将待定的部分作为新的内容代替入格式中，并改为Loop1-2
+【格式：Loop1-1-Line1 & $\Delta T/\mathrm{~{}^\circ C} = (3.456\pm 0.125) \times 10^{-5}t/\mathrm{~s} + (1.069\pm 0.076) \times 10^{-3} \quad r^2 = 0.8390$ \\
+        Loop1-1-Line2 & $\Delta T/\mathrm{~{}^\circ C} = (2.455\pm 0.053) \times 10^{-4}t/\mathrm{~s} + (-2.875\pm 0.0013) \quad r^2 = 0.9296$ \\
+        Loop1-1-Line3 & $\Delta T/\mathrm{~{}^\circ C} = (1.725\pm 0.013) \times 10^{-4}t/\mathrm{~s} + (-0.0319\pm 0.0015) \quad r^2 = 0.9808$ \\
+
+Loop1-1 & 130.72 & 0.006 & -2.843 & 628.90 & 2.849 & -2.715 & 0.0080 & 2.795 \\】
+【内容：Linear Fit 1: Delta_T/K = (3.45629e-05 ± 1.25e-06) t/s + (0.00106899 ± 7.55e-05), r-square = 0.838992230
+Linear Fit 2: Delta_T/K = (0.000245544 ± 5.26e-06) t/s + (-2.87482 ± 0.0013), r-square = 0.929599347
+Linear Fit 3: Delta_T/K = (0.000172473 ± 1.26e-06) t/s + (-0.0319431 ± 0.00151), r-square = 0.980787421
+
+x1 = 130.72, x2 = 648.90
+S1_left = 23.63  S1_right = 23.61  S2_left = 231.28  S2_right = 231.24
+T1_left = 0.006 K  T1_right = -2.843 K  T2_left = -2.715 K  T2_right = 0.080 K】
+【待定：
+Linear Fit 1: Delta_T/K = (7.44068e-05 ± 5.35e-07) t/s + (2.60287e-05 ± 5.71e-05), r-square = 0.986702118
+Linear Fit 2: Delta_T/K = (0.000239547 ± 1.15e-06) t/s + (-2.67706 ± 0.00044), r-square = 0.991857442
+Linear Fit 3: Delta_T/K = (0.000189827 ± 9.8e-07) t/s + (-0.112932 ± 0.00119), r-square = 0.992826172
+
+x1 = 198.67, x2 = 734.63
+S1_left = 9.15  S1_right = 9.09  S2_left = 138.81  S2_right = 138.76
+T1_left = 0.015 K  T1_right = -2.629 K  T2_left = -2.501 K  T2_right = 0.027 K】
+
+
+Loop1-2-Line1 & $\Delta T/\mathrm{~{}^\circ C} = (7.441\pm 0.054) \times 10^{-5}t/\mathrm{~s} + (2.603\pm 5.710) \times 10^{-5} \quad r^2 = 0.9867$ \\
+Loop1-2-Line2 & $\Delta T/\mathrm{~{}^\circ C} = (2.395\pm 0.012) \times 10^{-4}t/\mathrm{~s} + (-2.677\pm 0.00044) \quad r^2 = 0.9919$ \\
+Loop1-2-Line3 & $\Delta T/\mathrm{~{}^\circ C} = (1.898\pm 0.010) \times 10^{-4}t/\mathrm{~s} + (-0.1129\pm 0.0012) \quad r^2 = 0.9928$ \\
+
+Loop1-2 & 198.67 & 0.015 & -2.629  & 2.644 & 734.63 & -2.501 & 0.027 & 2.528 \\
+
+7.0047
+6.7324
+6.6629
+6.4078
+
+4.0883
+4.0610
+4.0150
+3.9215
+3.8547
+3.7334

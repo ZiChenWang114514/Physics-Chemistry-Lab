@@ -1,0 +1,831 @@
+\section{附录：数据处理代码}
+
+本人编写了一套完整的数据处理代码，在Jupyter Notebook中打开，可以做到指定文件名后一键生成所有图像与数据计算结果。
+
+\subsection{数据的预处理与函数的设置}
+
+\subsubsection{数据的预处理}\label{cap:1-1}
+
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, fontsize=\footnotesize, linenos]{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
+from matplotlib.ticker import FuncFormatter
+from abc import ABC, abstractmethod
+import re
+
+class AbstractSegment(ABC):
+    def __init__(self, info_lines, data_lines, number):
+        self.number = number
+        self.info = self.get_info(info_lines)
+        self.data = self.get_data(data_lines)
+    
+    @abstractmethod
+    def get_data(self, lines):
+        pass
+    
+    @abstractmethod
+    def get_info(self, lines):
+        pass
+
+class Segment(AbstractSegment):
+    def __init__(self, info_lines, data_lines, number):
+        super().__init__(info_lines, data_lines, number)
+
+    def get_data(self, lines):
+        data = [line.strip().split(', ') for line in lines[1:] if line.strip()]
+        return pd.DataFrame(data, columns=['Potential/V', 'Current/A', 'Charge/C'])\
+                .astype({'Potential/V': float, 'Current/A': float, 'Charge/C': float})
+
+    def get_info(self, lines):
+        Eps, ips, Ahs = [], [], []
+        for line in lines:
+            if line.startswith('Ep'):
+                Eps.append(line.split('=')[1].strip())
+            elif line.startswith('ip'):
+                ips.append(line.split('=')[1].strip())
+            elif line.startswith('Ah'):
+                Ahs.append(line.split('=')[1].strip())
+
+        segment_info = {
+            'Segment': self.number,
+            'peaks': [{'Ep':e, 'ip':i, 'Ah':a} for e, i, a in zip(Eps, ips, Ahs)] \
+                        if len(Eps)*len(ips)*len(Ahs) != 0 else None,
+        }
+
+        return segment_info
+
+class AbstractCyclicVoltammetry(ABC):
+    def __init__(self, file_name):
+        self.name = file_name.split('.')[0]
+        self.text = self.read_file(file_name)
+        self.inifo = self.initialize()
+        self.segifo = self.init_segments()
+
+    @abstractmethod
+    def read_file(self, file_name):
+        pass
+
+    @abstractmethod
+    def initialize(self):
+        pass
+
+    @abstractmethod
+    def init_segments(self):
+        pass
+    
+    @abstractmethod
+    def get_all_data(self):
+        pass
+
+    @abstractmethod
+    def get_segment_data(self, segment_number):
+        pass
+
+    @abstractmethod
+    def get_all_info(self):
+        pass
+
+    @abstractmethod
+    def get_segment_info(self, segment_number):
+        pass
+        
+    @abstractmethod
+    def get_initial_info(self):
+        pass
+
+
+class CyclicVoltammetry(AbstractCyclicVoltammetry):
+    def __init__(self, file_name):
+        super().__init__(file_name)
+
+    def read_file(self, file_name):
+        with open(file_name) as f:
+            lines = f.readlines()
+        return lines
+    
+    def initialize(self):
+        initial_info = {
+            'Name': self.name,
+            'Init E (V)': None,
+            'High E (V)': None,
+            'Low E (V)': None,
+            'Scan Rate (V/s)': None,
+            'Segments': None,
+            'Sample Interval (V)': None,
+            'Sensitivity (A/V)': None,
+        }
+
+        combined_text = "\n".join(self.text).split('Segment 1:')[0]
+
+        init_e_pattern = r"Init E \(V\) = ([\-\d\.]+)"
+        high_e_pattern = r"High E \(V\) = ([\-\d\.]+)"
+        low_e_pattern = r"Low E \(V\) = ([\-\d\.]+)"
+        scan_rate_pattern = r"Scan Rate \(V/s\) = ([\-\d\.e]+)"
+        segments_pattern = r"Segment = (\d+)"
+        sample_interval_pattern = r"Sample Interval \(V\) = ([\-\d\.e]+)"
+        sensitivity_pattern = r"Sensitivity \(A/V\) = ([\-\d\.e\-]+)"
+
+        initial_info['Init E (V)'] = re.search(init_e_pattern, combined_text).group(1)
+        initial_info['High E (V)'] = re.search(high_e_pattern, combined_text).group(1)
+        initial_info['Low E (V)'] = re.search(low_e_pattern, combined_text).group(1)
+        initial_info['Scan Rate (V/s)'] = re.search(scan_rate_pattern, combined_text).group(1)
+        initial_info['Segments'] = int(re.search(segments_pattern, combined_text).group(1))
+        initial_info['Sample Interval (V)'] = re.search(sample_interval_pattern, combined_text).group(1)
+        initial_info['Sensitivity (A/V)'] = re.search(sensitivity_pattern, combined_text).group(1)
+
+        return initial_info
+
+    def init_segments(self):
+        segments = []
+        
+        for i, line in enumerate(self.text):
+            if line.startswith('Segment 1:'):
+                segments_text = self.text[i:]
+                break
+        else:
+            raise ValueError('Find segment text failed')
+        
+        for i, line in enumerate(segments_text):
+            if line.startswith('Potential/V, Current/A, Charge/C'):
+                segments_info_text = segments_text[:i]
+                segments_data_text = segments_text[i+1:]
+                break
+        
+        segments_info, segments_data = [], []
+        segment_info_index, segment_data_index = [], []
+
+        for i, line in enumerate(segments_info_text):
+            if line.startswith('Segment '):
+                segment_info_index.append(i)
+
+        for i, line in enumerate(segments_data_text):
+            if line.startswith('Segment '):
+                segment_data_index.append(i)
+
+        for i in range(len(segment_info_index)):
+            if i == len(segment_info_index) - 1:
+                segments_info.append(segments_info_text[segment_info_index[i]:])
+            else:
+                segments_info.append(segments_info_text[segment_info_index[i]:segment_info_index[i+1]])
+
+        for i in range(len(segment_data_index)):
+            if i == len(segment_data_index) - 1:
+                segments_data.append(segments_data_text[segment_data_index[i]:])
+            else:
+                segments_data.append(segments_data_text[segment_data_index[i]:segment_data_index[i+1]])
+
+        for i, j in zip(segments_info, segments_data):
+            segments.append(Segment(i, j, len(segments) + 1))
+
+        return segments
+    
+    
+    def get_all_data(self):
+        all_data = [segment.data for segment in self.segifo]
+        return all_data
+
+    def get_segment_data(self, segment_number):
+        if segment_number <= len(self.segifo):
+            return self.segifo[segment_number - 1].data
+        else:
+            raise ValueError("Segment number out of range")
+
+    def get_all_info(self):
+        all_info = [segment.info for segment in self.segifo]
+        return all_info
+
+    def get_segment_info(self, segment_number):
+        if segment_number <= len(self.segifo):
+            return self.segifo[segment_number - 1].info
+        else:
+            raise ValueError("Segment number out of range")
+        
+    def get_initial_info(self):
+        return self.inifo
+
+file_names = ['blank1.txt', 
+              'blank2.txt',
+              'blank5.txt',
+              'MeOH.txt',
+              'O2-no.txt',
+              'O2-mid.txt',
+              'O2-fast.txt']
+
+files = {name: CyclicVoltammetry(name) for name in file_names}
+files['blank1.txt'].get_all_data()[0]
+\end{minted}
+
+\subsubsection{函数的设置}\label{cap:1-2}
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, fontsize=\footnotesize, linenos]{python}
+
+def merge_df(ORR, df2):
+    df2 = pd.concat([ORR.iloc[[-1]], df2], ignore_index=True)
+    df1 = pd.concat([df2.iloc[[-1]], ORR], ignore_index=True)
+    return df1, df2
+
+def float_to_sci(f: float, digits=2):
+    if f == 0:
+        return '0.' + '0' * digits
+    m, e = '%e' % f, int(np.floor(np.log10(abs(f))))
+    # return r'...'
+    if 0 <= abs(e) < 3:
+        return f'{f:.{digits}f}'
+    if f < 0:
+        digits += 1
+    return r'${}\times 10^{{{}}}$'.format(m[:digits + 2], e)
+
+def find_cross_point(df1, df2, n_poly=2):
+    from numpy.polynomial import Polynomial
+    # 假设交点附近是线性关系，我们可以使用线性拟合（或多项式拟合）
+    # 找到两条曲线的重叠区域
+    max_min = max(min(df1['Potential/V']), min(df2['Potential/V']))
+    min_max = min(max(df1['Potential/V']), max(df2['Potential/V']))
+
+    # 筛选交点附近的数据点
+    df1_near = df1[(df1['Potential/V'] >= max_min) & (df1['Potential/V'] <= min_max)]
+    df2_near = df2[(df2['Potential/V'] >= max_min) & (df2['Potential/V'] <= min_max)]
+
+    # 进行线性拟合
+    poly1 = Polynomial.fit(df1_near['Potential/V'], df1_near['Current/A'], n_poly) 
+    poly2 = Polynomial.fit(df2_near['Potential/V'], df2_near['Current/A'], n_poly)
+
+    # 解方程求交点
+    roots = (poly1 - poly2).roots()
+
+    # 找到合适的根（在两条曲线的重叠区域内）
+    for r in roots:
+        if max_min <= r <= min_max:
+            x_intercept = r
+            y_intercept = poly1(x_intercept)
+            break
+
+    return x_intercept, y_intercept
+
+def save_data(dfs, name):
+    df = pd.concat(dfs, ignore_index=True, axis=1)
+    df.to_csv(name + '.csv', index=False, header=False)
+
+\end{minted}
+
+\subsection{氮气饱和下测定不同扫速的 CV 曲线}\label{cap:2}
+
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, fontsize=\footnotesize, linenos]{python}
+dfs = []
+for name in file_names[:3]:
+    df = files[name].get_all_data()[-2:]
+    df[0], df[1] = merge_df(df[0].iloc[:,[0, 1]], df[1].iloc[:,[0, 1]])
+    dfs += df
+
+def format_y(value, tick_number):
+    return float_to_sci(value)
+
+def format_x(value, tick_number):
+    return f'{value:.3f}'
+
+colors = ['red', 'red', 'blue', 'blue', 'green', 'green', 'black', 'black']
+
+plt.rcParams['font.family'] = 'Times New Roman'
+plt.rcParams['mathtext.fontset'] = 'custom'
+plt.rcParams['mathtext.rm'] = 'Times New Roman'
+plt.rcParams['mathtext.it'] = 'Times New Roman:italic'
+plt.rcParams['mathtext.bf'] = 'Times New Roman:bold'
+plt.rcParams['font.size'] = 16
+plt.rcParams['axes.labelsize'] = 18
+plt.rcParams['xtick.labelsize'] = 16
+plt.rcParams['ytick.labelsize'] = 16
+
+plt.figure(figsize=(8, 6), dpi=1200)
+
+j = 0
+for i in range(len(dfs)):
+    if i % 2 == 0:
+        label = r'$v=$' + '0.{}0 V/s'.format(file_names[j].split('.')[0][-1])
+        j += 1
+    else:
+        label = None
+    plt.plot(dfs[i]['Potential/V'], -dfs[i]['Current/A']*1e6, 
+             label=label, color=colors[i], linewidth=1.5)
+
+plt.xlabel(r'Potential / V vs SCE')
+plt.ylabel(r'Current / $10^{-6}$A')
+plt.legend(frameon=False)
+
+plt.gca().xaxis.set_major_formatter(FuncFormatter(format_x))
+plt.gca().yaxis.set_major_formatter(FuncFormatter(format_y))
+plt.gca().xaxis.set_minor_locator(ticker.AutoMinorLocator())
+plt.gca().yaxis.set_minor_locator(ticker.AutoMinorLocator())
+plt.grid(which='major', alpha=0.5)
+plt.grid(which='minor', alpha=0.2)
+
+plt.show()    
+\end{minted}
+
+\subsection{不同条件下铂电极表面的氧还原反应的 CV 曲线}
+
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, fontsize=\footnotesize, linenos]{python}
+df4s = []
+filessss = [file_names[0]] + file_names[-3:]
+for name in filessss:
+
+    df = files[name].get_all_data()[-2:]
+    df4s += [df[1][df[1]['Potential/V'] > -0.26]]
+
+def format_y(value, tick_number):
+    return float_to_sci(value)
+
+def format_x(value, tick_number):
+    return f'{value:.3f}'
+
+labels = [
+        r'N${}_2$ + $\neg$ stirring', r'$\neg$ O${}_2$ + $\neg$ stirring', r'O${}_2$ + $\neg$ stirring', r'O${}_2$ + stirring'
+        ]
+
+colors = ['blue', 'red', 'green', 'black', 'orange', 'purple']
+
+# 设置 matplotlib 参数
+plt.rcParams['font.family'] = 'Times New Roman'
+plt.rcParams['mathtext.fontset'] = 'custom'
+plt.rcParams['mathtext.rm'] = 'Times New Roman'
+plt.rcParams['mathtext.it'] = 'Times New Roman:italic'
+plt.rcParams['mathtext.bf'] = 'Times New Roman:bold'
+plt.rcParams['font.size'] = 16
+plt.rcParams['axes.labelsize'] = 18
+plt.rcParams['xtick.labelsize'] = 16
+plt.rcParams['ytick.labelsize'] = 16
+
+# 绘图
+plt.figure(figsize=(8, 6), dpi=1200)
+
+j = 0
+for i in range(len(df4s)):
+
+    plt.plot(df4s[i]['Potential/V'], -df4s[i]['Current/A']*1e5, 
+             label=labels[i], color=colors[i], linewidth=1.5)
+
+# 设置标签和图例
+plt.xlabel(r'Potential / V vs SCE')
+plt.ylabel(r'Current / $10^{-5}$A')
+plt.legend(frameon=False)
+
+# 设置网格线
+plt.gca().xaxis.set_major_formatter(FuncFormatter(format_x))
+plt.gca().yaxis.set_major_formatter(FuncFormatter(format_y))
+plt.gca().xaxis.set_minor_locator(ticker.AutoMinorLocator())
+plt.gca().yaxis.set_minor_locator(ticker.AutoMinorLocator())
+plt.grid(which='major', alpha=0.5)
+plt.grid(which='minor', alpha=0.2)
+
+# 显示图形
+plt.show()
+\end{minted}
+
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, fontsize=\footnotesize, linenos]{python}
+df3s = []
+for name in [file_names[0], 'MeOH.txt']:
+    if name == file_names[1]:
+        df = files[name].get_all_data()[-2:]
+        # 删除Potential/V列的小于-0.25的行
+        df[0], df[1] = merge_df(df[0].iloc[:,[0, 1]], df[1].iloc[:,[0, 1]])
+        df3s += df
+    else:
+        df = files[name].get_all_data()[-2:]
+        df[0], df[1] = merge_df(df[0].iloc[:,[0, 1]], df[1].iloc[:,[0, 1]])
+        df3s += df
+
+O2 = df3s[1].iloc[:,[0, 1]].copy()
+N2 = df3s[3].iloc[:,[0, 1]].copy()
+
+O2 = O2[(O2['Potential/V'] >= 0) & (O2['Potential/V'] <= 0.1)]
+N2 = N2[(N2['Potential/V'] >= 0) & (N2['Potential/V'] <= 0.1)]
+
+x_intercept, y_intercept = find_cross_point(O2, N2)
+print(x_intercept, y_intercept)
+
+
+def format_y(value, tick_number):
+    return float_to_sci(value)
+
+def format_x(value, tick_number):
+    return f'{value:.3f}'
+
+labels = [r'N${}_2$', r'O${}_2$']
+colors = ['blue', 'blue', 'red', 'red', 'green', 'green', 'black', 'black']
+
+# 设置 matplotlib 参数
+plt.rcParams['font.family'] = 'Times New Roman'
+plt.rcParams['mathtext.fontset'] = 'custom'
+plt.rcParams['mathtext.rm'] = 'Times New Roman'
+plt.rcParams['mathtext.it'] = 'Times New Roman:italic'
+plt.rcParams['mathtext.bf'] = 'Times New Roman:bold'
+plt.rcParams['font.size'] = 16
+plt.rcParams['axes.labelsize'] = 18
+plt.rcParams['xtick.labelsize'] = 16
+plt.rcParams['ytick.labelsize'] = 16
+
+# 绘图
+plt.figure(figsize=(8, 6), dpi=1200)
+
+j = 0
+for i in range(len(df3s)):
+    if i % 2 == 0:
+        label = labels[j]
+        j += 1
+    else:
+        label = None
+
+    plt.plot(df3s[i]['Potential/V'], -df3s[i]['Current/A']*1e6, 
+             label=label, color=colors[i], linewidth=1.5)
+plt.plot(x_intercept, -y_intercept*1e6, 'o', color='black', markersize=6, label=r'$E_{ox}$')
+# 设置标签和图例
+plt.xlabel(r'Potential / V vs SCE')
+plt.ylabel(r'Current / $10^{-6}$A')
+plt.legend(frameon=False)
+# label为起始氧化电位
+
+
+# 设置网格线
+plt.gca().xaxis.set_major_formatter(FuncFormatter(format_x))
+plt.gca().yaxis.set_major_formatter(FuncFormatter(format_y))
+plt.gca().xaxis.set_minor_locator(ticker.AutoMinorLocator())
+plt.gca().yaxis.set_minor_locator(ticker.AutoMinorLocator())
+plt.grid(which='major', alpha=0.5)
+plt.grid(which='minor', alpha=0.2)
+
+# 显示图形
+plt.show()
+\end{minted}
+
+\subsection{铂电极表面的甲醇电化学氧化反应}
+
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, fontsize=\footnotesize, linenos]{python}
+N2_cathode = df2s[0].iloc[:,[0, 1]].copy()
+N2_anode = df2s[1].iloc[:,[0, 1]].copy()
+O2_cathode = df2s[2].iloc[:,[0, 1]].copy()
+O2_anode = df2s[3].iloc[:,[0, 1]].copy()
+
+N2_cathode = N2_cathode[(N2_cathode['Potential/V'] >= 0.5) & (N2_cathode['Potential/V'] <= 0.8)]
+N2_anode = N2_anode[(N2_anode['Potential/V'] >= 0.5) & (N2_anode['Potential/V'] <= 0.8)]
+O2_cathode = O2_cathode[(O2_cathode['Potential/V'] >= 0.5) & (O2_cathode['Potential/V'] <= 0.8)]
+O2_anode = O2_anode[(O2_anode['Potential/V'] >= 0.5) & (O2_anode['Potential/V'] <= 0.8)]
+
+E_red_1 = find_cross_point(N2_cathode, O2_cathode, n_poly=4)
+E_red_2 = find_cross_point(N2_anode, O2_anode, n_poly=4)
+
+print(E_red_1)
+print(E_red_2)
+
+def format_y(value, tick_number):
+    return float_to_sci(value)
+
+def format_x(value, tick_number):
+    return f'{value:.3f}'
+
+labels = [r'N${}_2$', r'O${}_2$']
+colors = ['blue', 'blue', 'red', 'red', 'green', 'green', 'black', 'black']
+
+# 设置 matplotlib 参数
+plt.rcParams['font.family'] = 'Times New Roman'
+plt.rcParams['mathtext.fontset'] = 'custom'
+plt.rcParams['mathtext.rm'] = 'Times New Roman'
+plt.rcParams['mathtext.it'] = 'Times New Roman:italic'
+plt.rcParams['mathtext.bf'] = 'Times New Roman:bold'
+plt.rcParams['font.size'] = 16
+plt.rcParams['axes.labelsize'] = 18
+plt.rcParams['xtick.labelsize'] = 16
+plt.rcParams['ytick.labelsize'] = 16
+
+# 绘图
+plt.figure(figsize=(8, 6), dpi=1200)
+
+j = 0
+for i in range(len(df2s)):
+    if i % 2 == 0:
+        label = labels[j]
+        j += 1
+    else:
+        label = None
+
+    plt.plot(df2s[i]['Potential/V'], -df2s[i]['Current/A']*1e6, 
+             label=label, color=colors[i], linewidth=1.5)
+
+plt.plot(E_red_2[0], -E_red_2[1]*1e6, 'x', color='black', markersize=6, label=r'$E_{red,1}$')
+plt.plot(E_red_1[0], -E_red_1[1]*1e6, 'o', color='black', markersize=6, label=r'$E_{red,2}$')
+
+# 设置标签和图例
+plt.xlabel(r'Potential / V vs SCE')
+plt.ylabel(r'Current / $10^{-6}$A')
+plt.legend(frameon=False)
+
+# 设置网格线
+plt.gca().xaxis.set_major_formatter(FuncFormatter(format_x))
+plt.gca().yaxis.set_major_formatter(FuncFormatter(format_y))
+plt.gca().xaxis.set_minor_locator(ticker.AutoMinorLocator())
+plt.gca().yaxis.set_minor_locator(ticker.AutoMinorLocator())
+plt.grid(which='major', alpha=0.5)
+plt.grid(which='minor', alpha=0.2)
+
+# 显示图形
+plt.show()
+\end{minted}
+
+\subsection{铂电极的电化学活性面积}
+
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, fontsize=\footnotesize, linenos]{python}
+
+def draw_cal_ESC(df, n_points, mode, v):
+    from scipy.interpolate import interp1d
+    from scipy.integrate import trapz
+
+    def format_y(value, tick_number):
+        return float_to_sci(value)
+
+    def format_x(value, tick_number):
+        return f'{value:.3f}'
+
+    colors = ['red', 'red', 'blue', 'blue', 'green', 'green', 'black', 'black']
+    label = str(v) + ' V/s'
+
+    # 设置 matplotlib 参数
+    plt.rcParams['font.family'] = 'Times New Roman'
+    plt.rcParams['mathtext.fontset'] = 'custom'
+    plt.rcParams['mathtext.rm'] = 'Times New Roman'
+    plt.rcParams['mathtext.it'] = 'Times New Roman:italic'
+    plt.rcParams['mathtext.bf'] = 'Times New Roman:bold'
+    plt.rcParams['font.size'] = 16
+    plt.rcParams['axes.labelsize'] = 18
+    plt.rcParams['xtick.labelsize'] = 16
+    plt.rcParams['ytick.labelsize'] = 16
+
+    # 绘图
+    plt.figure(figsize=(8, 6), dpi=1200)
+
+    plt.plot(df['Potential/V'], -df['Current/A']*1e6, 
+                label=label, color=colors[i], linewidth=1.5)
+
+    if mode == 'c':
+        dff = df[(df['Potential/V'] < 0.4) & (df['Potential/V'] > -0.1)]
+        x_ = dff.nlargest(n_points, 'Current/A')['Potential/V'].mean()
+        print(x_)
+        y_constant = dff.nlargest(n_points, 'Current/A')['Current/A'].mean()
+    elif mode == 'a':
+        dff = df[(df['Potential/V'] < 0.4) & (df['Potential/V'] > -0.1)]
+        x_ = dff.nsmallest(n_points, 'Current/A')['Potential/V'].mean()
+        y_constant = dff.nsmallest(n_points, 'Current/A')['Current/A'].mean()
+
+    x_vals = df[df['Potential/V'] < 0.4]['Potential/V']
+    y_vals = df[df['Potential/V'] < 0.4]['Current/A'] * -1
+    x_vals_masked = np.ma.masked_where(x_vals >= x_, x_vals)
+    y_vals_masked = np.ma.masked_where(x_vals >= x_, y_vals)
+
+    area = trapz(y_vals_masked, x_vals_masked) 
+
+    y_label = r'Current = {} A'.format(float_to_sci(y_constant))
+    plt.axhline(y=-y_constant * 1e6, color='r', linestyle='--', label=y_label)
+    y_constant = -y_constant * 1e6
+
+    # 求另一个交点
+    x_vals_2 = df[df['Potential/V'] < 0]['Potential/V']
+    y_vals_2 = df[df['Potential/V'] < 0]['Current/A'] * -1
+    if mode == 'a':
+        x_vals_masked_2 = np.ma.masked_where(y_vals_2*1e6 <= y_constant, x_vals_2)
+        y_vals_masked_2 = np.ma.masked_where(y_vals_2*1e6 <= y_constant, y_vals_2)
+    elif mode == 'c':
+        x_vals_masked_2 = np.ma.masked_where(y_vals_2*1e6 >= y_constant, x_vals_2)
+        y_vals_masked_2 = np.ma.masked_where(y_vals_2*1e6 >= y_constant, y_vals_2)
+    
+    # 选取x_vals_masked_2中的数字元素
+    x_vals_masked_2 = x_vals_masked_2[~x_vals_masked_2.mask]
+    y_vals_masked_2 = y_vals_masked_2[~y_vals_masked_2.mask]
+
+    #从x_vals_masked中去除x_vals_masked_2中的元素
+    x_vals_masked = x_vals_masked[~np.isin(x_vals_masked, x_vals_masked_2)]
+    y_vals_masked = y_vals_masked[~np.isin(y_vals_masked, y_vals_masked_2)]
+
+    plt.fill_between(x_vals_masked, y_vals_masked * 1e6, y_constant, color='grey', alpha=0.5)
+
+    plt.xlabel(r'Potential / V vs SCE')
+    plt.ylabel(r'Current / $10^{-6}$A')
+    plt.legend(frameon=False)
+    
+    plt.gca().xaxis.set_major_formatter(FuncFormatter(format_x))
+    plt.gca().yaxis.set_major_formatter(FuncFormatter(format_y))
+    plt.gca().xaxis.set_minor_locator(ticker.AutoMinorLocator())
+    plt.gca().yaxis.set_minor_locator(ticker.AutoMinorLocator())
+    plt.grid(which='major', alpha=0.5)
+    plt.grid(which='minor', alpha=0.2)
+
+    plt.show()
+    
+    q = area / v
+    esa = q / 2.1e-6
+    print('Area:', float_to_sci(area))
+    print('Q:', float_to_sci(q))
+    print('ESA:', float_to_sci(esa))
+
+def draw_ESC(files, name):
+    print(name)
+    df1, df2 = files[name].get_all_data()[-2:]
+    df1, df2 = merge_df(df1.iloc[:,[0, 1]], df2.iloc[:,[0, 1]])
+    df1 = pd.concat([df2, df1.iloc[[1]]], ignore_index=True)
+    df1['Current/A'] = df1['Current/A'] * -1
+    v = float(files[name].get_initial_info()['Scan Rate (V/s)'])
+    draw_cal_ESC(df2, 1, 'c', v)
+    draw_cal_ESC(df1, 1, 'a', v)
+
+for name in file_names[:3]:
+    draw_ESC(files, name)
+\end{minted}
+
+\subsection{直接甲醇燃料电池输出电压-输出功率曲线}
+
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, fontsize=\footnotesize, linenos]{python}
+from numpy.polynomial.polynomial import Polynomial
+from scipy.interpolate import interp1d
+
+ep_ORR = files['MeOH.txt'].get_all_data()[-1].iloc[:,[0, 1]].copy()
+ep_MOR = files['O2-no.txt'].get_all_data()[-2].iloc[:,[0, 1]].copy()
+background = [_.iloc[:,[0, 1]].copy() for _ in files['blank1.txt'].get_all_data()[-2:]]
+# 扣除背景
+ep_ORR['Current/A'] = (ep_ORR['Current/A'] - background[1]['Current/A']) * -1
+ep_MOR['Current/A'] = ep_MOR['Current/A'] - background[0]['Current/A']
+
+def interpolate_potential(df, current_value):
+    if not (df['Current/A'].min() <= current_value <= df['Current/A'].max()):
+        raise ValueError("Current value is out of the DataFrame's range.")
+
+    f = interp1d(df['Current/A'], df['Potential/V'], kind='linear')
+
+    potential_value = f(current_value)
+    return potential_value
+
+def draw_ep(ORR, MOR):
+    def format_y(value, tick_number):
+        return float_to_sci(value)
+
+    def format_x(value, tick_number):
+        return f'{value:.3f}'
+
+    colors = ['red', 'red', 'blue', 'blue', 'green', 'green', 'black', 'black']
+
+    plt.rcParams['font.family'] = 'Times New Roman'
+    plt.rcParams['mathtext.fontset'] = 'custom'
+    plt.rcParams['mathtext.rm'] = 'Times New Roman'
+    plt.rcParams['mathtext.it'] = 'Times New Roman:italic'
+    plt.rcParams['mathtext.bf'] = 'Times New Roman:bold'
+    plt.rcParams['font.size'] = 16
+    plt.rcParams['axes.labelsize'] = 18
+    plt.rcParams['xtick.labelsize'] = 16
+    plt.rcParams['ytick.labelsize'] = 16
+
+    plt.figure(figsize=(8, 6), dpi=1200)
+
+    plt.plot(ORR['Potential/V'], ORR['Current/A']*1e6, 
+                label='ORR', color=colors[3], linewidth=1.5)
+    plt.plot(MOR['Potential/V'], MOR['Current/A']*1e6,
+                label='MOR', color=colors[5], linewidth=1.5)
+    
+    ORR_ = ORR[(ORR['Potential/V'] < 0.44) & (ORR['Potential/V'] > 0.41)].copy().reset_index(drop=True)
+    MOR_ = MOR[(MOR['Potential/V'] < 0.44) & (MOR['Potential/V'] > 0.41)].copy().iloc[::-1].reset_index(drop=True)
+
+    orr_peak_potential = ORR.nlargest(1, 'Current/A')['Potential/V'].values[0]
+    mor_peak_potential = MOR.nlargest(1, 'Current/A')['Potential/V'].values[0]
+
+    oor_zeroc_potential = ORR[ORR['Current/A'] > 0].nsmallest(1, 'Current/A')['Potential/V'].values[0]
+    mor_zeroc_potential = MOR[MOR['Current/A'] > 0].nsmallest(1, 'Current/A')['Potential/V'].values[0]
+    
+    print(orr_peak_potential, mor_peak_potential)
+
+    x_intercept, y_intercept = find_cross_point(ORR_, MOR_)
+    print(x_intercept)
+    print(y_intercept)
+
+    cross_point_df = pd.DataFrame({'Potential/V': [x_intercept], 'Current/A': [y_intercept]})
+
+    # 合并数据并排序
+    ORR = pd.concat([ORR, cross_point_df]).sort_values(by='Potential/V').reset_index(drop=True)
+    MOR = pd.concat([MOR, cross_point_df]).sort_values(by='Potential/V').reset_index(drop=True)
+    
+    ORR__ = ORR[(ORR['Potential/V'] < orr_peak_potential) & (ORR['Current/A'] <= y_intercept) & (ORR['Potential/V'] >= oor_zeroc_potential)].copy().reset_index(drop=True)
+    MOR__ = MOR[(MOR['Potential/V'] > mor_peak_potential) & (MOR['Current/A'] <= y_intercept) & (MOR['Potential/V'] <= mor_zeroc_potential)].copy().reset_index(drop=True)
+
+
+    y_min = max(ORR__['Current/A'].min(), MOR__['Current/A'].min())
+
+    # 在0~y_intercept之间取出1000个点，并求出其与ORR__和MOR__的交点，将Current/A, ORR_Potential/V, MOR_Potential/V存入dataframe
+    cross_points = pd.DataFrame({'Current/A': np.linspace(y_min, y_intercept, 1000)})
+    cross_points['ORR_Potential/V'] = cross_points['Current/A'].apply(lambda x: interpolate_potential(ORR__, x))
+    cross_points['MOR_Potential/V'] = cross_points['Current/A'].apply(lambda x: interpolate_potential(MOR__, x))
+
+    plt.fill_between(ORR__['Potential/V'], ORR__['Current/A']*1e6, y_intercept, color='grey', alpha=0.5)
+    plt.fill_between(MOR__['Potential/V'], MOR__['Current/A']*1e6, y_intercept, color='grey', alpha=0.5)
+    
+    plt.axhline(y=0, color='r', linestyle='--', label=None)
+    
+    # 设置标签和图例
+    plt.xlabel(r'Potential / V vs SCE')
+    plt.ylabel(r'Current / $10^{-6}$A')
+    plt.legend(frameon=False)
+
+    # 设置网格线
+    plt.gca().xaxis.set_major_formatter(FuncFormatter(format_x))
+    plt.gca().yaxis.set_major_formatter(FuncFormatter(format_y))
+    plt.gca().xaxis.set_minor_locator(ticker.AutoMinorLocator())
+    plt.gca().yaxis.set_minor_locator(ticker.AutoMinorLocator())
+    plt.grid(which='major', alpha=0.5)
+    plt.grid(which='minor', alpha=0.2)
+
+    # 显示图形
+    plt.show()
+
+    return cross_points
+
+crosses = draw_ep(ep_ORR, ep_MOR)
+\end{minted}
+
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, fontsize=\footnotesize, linenos]{python}
+def draw_UI(df):
+    def format_y(value, tick_number):
+        return float_to_sci(value)
+
+    def format_x(value, tick_number):
+        return f'{value:.3f}'
+
+    colors = ['red', 'red', 'blue', 'blue', 'green', 'green', 'black', 'black']
+
+    plt.rcParams['font.family'] = 'Times New Roman'
+    plt.rcParams['mathtext.fontset'] = 'custom'
+    plt.rcParams['mathtext.rm'] = 'Times New Roman'
+    plt.rcParams['mathtext.it'] = 'Times New Roman:italic'
+    plt.rcParams['mathtext.bf'] = 'Times New Roman:bold'
+    plt.rcParams['font.size'] = 16
+    plt.rcParams['axes.labelsize'] = 18
+    plt.rcParams['xtick.labelsize'] = 16
+    plt.rcParams['ytick.labelsize'] = 16
+
+    plt.figure(figsize=(8, 6), dpi=1200)
+
+    plt.plot(df['Potential/V'], df['Current/A']*1e6, 
+                label=r'$U-I$', color=colors[1], linewidth=1.5)
+    
+    plt.xlabel(r'Potential / V vs SCE')
+    plt.ylabel(r'Current / $10^{-6}$A')
+    plt.legend(frameon=False)
+    
+    plt.gca().xaxis.set_major_formatter(FuncFormatter(format_x))
+    plt.gca().yaxis.set_major_formatter(FuncFormatter(format_y))
+    plt.gca().xaxis.set_minor_locator(ticker.AutoMinorLocator())
+    plt.gca().yaxis.set_minor_locator(ticker.AutoMinorLocator())
+    plt.grid(which='major', alpha=0.5)
+    plt.grid(which='minor', alpha=0.2)
+
+    plt.show()
+    
+crosses['Potential/V'] = crosses['MOR_Potential/V'] - crosses['ORR_Potential/V']
+draw_UI(crosses)
+\end{minted}
+
+\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, fontsize=\footnotesize, linenos]{python}
+crosses['Power/W'] = crosses['Potential/V'] * crosses['Current/A']
+
+def draw_PU(df):
+    def format_y(value, tick_number):
+        return float_to_sci(value)
+
+    def format_x(value, tick_number):
+        return f'{value:.3f}'
+
+    colors = ['red', 'red', 'blue', 'blue', 'green', 'green', 'black', 'black']
+
+    plt.rcParams['font.family'] = 'Times New Roman'
+    plt.rcParams['mathtext.fontset'] = 'custom'
+    plt.rcParams['mathtext.rm'] = 'Times New Roman'
+    plt.rcParams['mathtext.it'] = 'Times New Roman:italic'
+    plt.rcParams['mathtext.bf'] = 'Times New Roman:bold'
+    plt.rcParams['font.size'] = 16
+    plt.rcParams['axes.labelsize'] = 18
+    plt.rcParams['xtick.labelsize'] = 16
+    plt.rcParams['ytick.labelsize'] = 16
+
+    plt.figure(figsize=(8, 6), dpi=1200)
+
+    plt.plot(df['Potential/V'], df['Power/W']*1e7,
+                label=r'$P-U$', color=colors[1], linewidth=1.5)
+    
+    plt.xlabel(r'Potential / V vs SCE')
+    plt.ylabel(r'Power / $10^{-7}$W')
+    plt.legend(frameon=False)
+    
+    plt.gca().xaxis.set_major_formatter(FuncFormatter(format_x))
+    plt.gca().yaxis.set_major_formatter(FuncFormatter(format_y))
+    plt.gca().xaxis.set_minor_locator(ticker.AutoMinorLocator())
+    plt.gca().yaxis.set_minor_locator(ticker.AutoMinorLocator())
+    plt.grid(which='major', alpha=0.5)
+    plt.grid(which='minor', alpha=0.2)
+
+    plt.show()
+
+draw_PU(crosses)
+crosses.nlargest(1, 'Power/W')
+\end{minted}

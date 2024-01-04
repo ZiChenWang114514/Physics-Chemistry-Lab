@@ -1,0 +1,979 @@
+%!TEX program = xelatex
+\documentclass[cn,hazy,pku,12pt,normal,math=newtx,cite=super]{elegantnote}
+\usepackage{tikz}
+\usepackage{tikz}
+
+\AddToHook{shipout/foreground}{
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[black,rotate=0,scale=10,opacity=0.1] at ([yshift=8cm]current page.center) {Z.C. Wang};
+    \node[black,rotate=0,scale=10,opacity=0.1] at ([yshift=4cm]current page.center) {Z.C. Wang}; 
+    \node[black,rotate=0,scale=10,opacity=0.1] at (current page.center) {Z.C. Wang}; 
+    \node[black,rotate=0,scale=10,opacity=0.1] at ([yshift=-4cm]current page.center) {Z.C. Wang};
+    \node[black,rotate=0,scale=10,opacity=0.1] at ([yshift=-8cm]current page.center) {Z.C. Wang}; 
+  \end{tikzpicture}
+}
+
+
+
+\title{实验二\quad 溶解热的测定\\
+\Large{测量硝酸钾的溶剂过程中的热效应}}
+
+\author{王子宸\quad 210001873\\
+周四19组\quad 8号}
+\institute{化学与分子工程学院}
+
+\expdate{\zhdate{2023/9/28}}
+\temperature{24.0 \si{^{\circ}C}}
+\pressure{100.81 \si{kPa}}
+
+\usepackage{array,longtable,subcaption,chngcntr}
+\usepackage[version=4]{mhchem}
+
+\pagecolor{white}
+\begin{document}
+
+\maketitle
+
+\keywords{国家精品课 \quad 物理化学实验 \quad 硝酸钾溶解热 \quad 电热补偿法 \quad 雷诺图解法}
+
+\abstracts{
+本实验中，利用电热补偿法测定了\ce{KNO_3}在不同浓度时的水溶液中的溶解热，通过平台期校正与雷诺校正两种方法，对于测定的温度予以校正。绘制$\Delta T-t$图并拟合$Q_{\mathrm{s}}^{-1}-n_0^{-1}$的双倒数线性关系。通过经验式，计算得到$Q_{\mathrm{s}}^0 = (4.70 \pm 0.02 )\times 10^{4}\mathrm{~J\cdot mol^{-1}}$，并且进一步计算了溶解过程中的其他热效应的数值。
+}
+
+\newpage
+
+
+\section{引言}
+
+\subsection{实验目的}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/0-1.jpg}
+    \caption{实验目的}
+\end{figure}
+\subsection{实验原理}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/0-2.jpg}
+    %\includegraphics[width=0.75\textwidth]{figures/0-3.jpg}
+    %\includegraphics[width=0.75\textwidth]{figures/0-5.jpg}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
+    %\includegraphics[width=0.75\textwidth]{figures/0-2.jpg}
+    \includegraphics[width=0.75\textwidth]{figures/0-3.jpg}
+    \includegraphics[width=0.75\textwidth]{figures/0-4.jpg}
+    \caption{实验原理}
+\end{figure}
+
+\section{实验}
+
+\subsection{主要仪器与药品}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/0-5.jpg}
+    \caption{仪器与药品}
+\end{figure}
+%\begin{itemize}
+    %\item \textbf{仪器}：广口保温瓶，磁子，电磁搅拌仪，数字温差仪，加热电阻丝，直流稳压电源，漏斗，秒表，500 \si{mL}容量瓶，万用表。
+    %\item \textbf{药品}：\ce{KNO_3}(A.R.)。
+%\end{itemize}
+
+\subsection{实验步骤与条件}
+
+\subsubsection{第一轮实验}
+
+\begin{enumerate}
+    \item 定容500 \si{mL}去离子水加入保温瓶中，搭建仪器联通线路，放入温差探测探头，测定加热电阻丝电阻，调节直流电源电流，使得功率在15$\sim$25 \si{W}附近，然后调节电压在额定电压以上。
+    \item 准确称量18 \si{g}的\ce{KNO_3}，打开搅拌，调零温差，开始记录，等待水温稳定。
+    \item 用漏斗快速加入\ce{KNO_3}，盖好盖子，降温等待温度进入平台期。
+    \item 打开恒流电源开关，记录电流与时间，温度接近$T_1$时停止加热，记录通电时间，带热平衡后，再记录120 \si{s}组数据。
+    \item 在\ce{KNO_3}溶液的基础上，再重复3遍步骤2$\sim$4。
+\end{enumerate}
+
+\subsubsection{第二轮实验}
+
+\begin{enumerate}
+    \item 更换定容500 \si{mL}去离子水加入保温瓶中，重复第一轮试验中的步骤。
+    \item 调节电源电流至1.26 \si{A}，调节磁力搅拌转速为2000 \si{rpm}，重复六次实验，拟定每次加入\ce{KNO_3}的质量依次为9.00 \si{g}、9.25 \si{g}、9.50 \si{g}、9.75 \si{g}、10.00 \si{g}、10.25 \si{g}，重复第一轮实验的步骤。
+    \item 在第一次实验前与第六次实验后，分别测定加热电阻丝的电阻值。
+\end{enumerate}
+
+% 可以直接贴预习报告照片，也可以重写
+
+\section{数据处理与结果呈现}
+
+% 根据实验原理的要求对原始实验数据进行适当的处理并作出符合规范的图或表；对所作图、表作出必要的描述和说明；依据图、表得出该实验待测量的最终运算结果(注意有效数字)
+
+\subsection{溶液浓度的计算}
+
+此处“溶液的浓度”是指：溶液中溶剂与溶质的摩尔比$n_0$，即$n_0=\dfrac{n_1}{n_2}$，其计算公式如下
+\begin{equation}
+    n_0=\frac{n_1}{n_2}=\frac{\rho_{\ce{H_2O}}V_{\ce{H_2O}}/M_{\ce{H_2O}}}{m_{\ce{KNO_3}}/M_{\ce{KNO_3}}}=\frac{0.9973\times500/18.02}{m_{\ce{KNO_3}}/101.11} = \frac{2797.9}{m_{\ce{KNO_3}}}
+    \label{eq:1}
+\end{equation}
+根据 \ref{eq:1} 可以计算得到每次加入\ce{KNO_3}后溶液的总浓度，两轮实验的溶液浓度分别如表 \ref{tab:1}、表 \ref{tab:2}。
+
+\noindent
+\begin{minipage}{0.499\textwidth}
+  \centering
+  \captionof{table}{第一轮实验的溶液浓度$n_0$}
+  \label{tab:1}
+  \begin{tabular}{ccc}
+    \toprule
+    $\Delta m$/g & $m$/g & $n_0$\\
+    \midrule
+    18.0075 & 18.0075 & 155.37\\
+    18.0007 & 36.0082 & 77.70\\
+    18.0045 & 54.0127 & 54.80\\
+    18.0010 & 72.0137 & 38.85\\
+    \bottomrule
+  \end{tabular}
+\end{minipage}%
+\begin{minipage}{0.499\textwidth}
+  \centering
+  \captionof{table}{第二轮实验的溶液浓度$n_0$}
+  \label{tab:2}
+  \begin{tabular}{ccc}
+    \toprule
+    $\Delta m$/g & $m$/g & $n_0$\\
+    \midrule
+    9.0063 & 9.0063 & 310.66\\
+    9.2567 & 18.2630 & 153.20\\
+    9.5020 & 27.7650 & 100.77\\
+    9.7516 & 37.5166 & 75.58\\
+    10.0088 & 47.5254 & 58.87\\
+    10.2516 & 57.7770 & 48.43\\
+    \bottomrule
+  \end{tabular}
+\end{minipage}
+
+\subsection{体系温度与时间的关系}
+
+实验过程中使用 \href{https://github.com/ZhaoZh02}{ZhaoZh02}（赵泽华、安孝彦） 提供的\href{https://github.com/ZhaoZh02/Dissolution-Combustion}{软件}记录数据，两轮实验的体系温度-时间关系图分别如图\ref{fig:1}、\ref{fig:2}。原始数据见附录。
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=.9\textwidth]{figures/1-1.png}
+    \caption{第一轮实验的体系温度-时间关系}
+    \label{fig:1}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=.9\textwidth]{figures/1-2.png}
+    \caption{第二轮实验的体系温度-时间关系}
+    \label{fig:2}
+\end{figure}
+
+\subsection{雷诺校正确定温度与温度差}
+使用使用 \href{https://github.com/ZhaoZh02}{ZhaoZh02}（赵泽华、安孝彦） 提供的\href{https://github.com/ZhaoZh02/Dissolution-Combustion}{数据处理工具}对实验的温度-时间关系进行雷诺校正，确定两轮实验降温、升温两个过程各自的起止时间$T_1,T_2,T_2^\prime,T_1^\prime$如表 \ref{tab:3}，拟合直线如表 \ref{tab:4}，得到的雷诺校正图如图 \ref{fig:3}、图 \ref{fig:4}。
+
+\begin{table}[htbp]
+    \centering
+    \caption{雷诺校正得到的时间与温度、温度差}
+    \begin{tabular}{ccccccccc}
+        \toprule
+        实验序号 & $t_a/\mathrm{S}$ & $T_1/\mathrm{{}^\circ C}$ & $T_2/\mathrm{{}^\circ C}$ & $\Delta T_a/\mathrm{{}^\circ C}$ & $t_b/\mathrm{S}$ & $T_2^\prime/\mathrm{{}^\circ C}$ & $T_1^\prime/\mathrm{{}^\circ C}$ & $\Delta T_b/\mathrm{{}^\circ C}$ \\
+        \midrule
+        Loop1-1 & 130.72 & 0.006 & -2.843  & 2.849 & 628.90 & -2.715 & 0.0080 & 2.795 \\
+        Loop1-2 & 198.67 & 0.015 & -2.629  & 2.644 & 734.63 & -2.501 & 0.027 & 2.528 \\
+        Loop1-3 & 170.16 & 0.021 & -2.461  & 2.482 & 485.23 & -2.370 & 0.017 & 2.387 \\
+        Loop1-4 & 240.86 & 0.056 & -2.280  & 2.336 & 711.60 & -2.167 & 0.704 & 2.871 \\
+        \midrule
+        Loop2-1 & 143.91 & 0.010 & -1.439  & 1.449 & 522.99 & -1.375 & 0.065 & 1.440 \\
+        Loop2-2 & 158.98 & 0.028 & -1.405  & 1.433 & 526.41 & -1.322 & 0.030 & 1.352 \\
+        Loop2-3 & 170.16 & 0.030 & -1.386  & 1.416 & 654.39 & -1.285 & 0.012 & 1.297 \\
+        Loop2-4 & 149.29 & 0.030 & -1.371  & 1.401 & 546.43 & -1.283 & 0.022 & 1.305 \\
+        Loop2-5 & 174.17 & 0.034 & -1.353  & 1.387 & 600.47 & -1.256 & 0.286 & 1.542 \\
+        Loop2-6 & 181.37 & 0.036 & -1.337  & 1.373 & 587.16 & -1.248 & 0.085 & 1.333 \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:3}
+\end{table}
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/2-1.png}
+        \caption*{Loop1-1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/2-2.png}
+        \caption*{Loop1-2}
+    \end{subfigure}
+    \vspace{1em} % Adjust the vertical spacing as needed
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/2-3.png}
+        \caption*{Loop1-3}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/2-4.png}
+        \caption*{Loop1-4}
+    \end{subfigure}
+    \caption{第一轮实验的雷诺校正图}
+    \label{fig:3}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/3-1.png}
+        \caption*{Loop2-1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/3-2.png}
+        \caption*{Loop2-2}
+    \end{subfigure}
+    \vspace{1em} % Adjust the vertical spacing as needed
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/3-3.png}
+        \caption*{Loop2-3}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/3-4.png}
+        \caption*{Loop2-4}
+    \end{subfigure}
+    \vspace{1em} % Adjust the vertical spacing as needed
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/3-5.png}
+        \caption*{Loop2-5}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/3-6.png}
+        \caption*{Loop2-6}
+    \end{subfigure}
+    \caption{第二轮实验的雷诺校正图}
+    \label{fig:4}
+\end{figure}
+
+\begin{center}
+    \begin{longtable}{cc}
+        \midrule
+        \endhead
+
+        \caption{每次实验的三条拟合直线\label{tab:4}}\\
+        \toprule
+        实验序号-直线 & 拟合直线 \\
+        \midrule
+        \endfirsthead
+
+        \midrule
+        \endfoot
+
+        \bottomrule
+        \endlastfoot
+        
+        Loop1-1-Line1 & $\Delta T/\mathrm{~{}^\circ C} = (3.456\pm 0.125) \times 10^{-5}t/\mathrm{~s} + (1.069\pm 0.076) \times 10^{-3} \quad r^2 = 0.8390$ \\
+        Loop1-1-Line2 & $\Delta T/\mathrm{~{}^\circ C} = (2.455\pm 0.053) \times 10^{-4}t/\mathrm{~s} + (-2.875\pm 0.0013) \quad r^2 = 0.9296$ \\
+        Loop1-1-Line3 & $\Delta T/\mathrm{~{}^\circ C} = (1.725\pm 0.013) \times 10^{-4}t/\mathrm{~s} + (-0.0319\pm 0.0015) \quad r^2 = 0.9808$ \\
+        Loop1-2-Line1 & $\Delta T/\mathrm{~{}^\circ C} = (7.441\pm 0.054) \times 10^{-5}t/\mathrm{~s} + (2.603\pm 5.710) \times 10^{-5} \quad r^2 = 0.9867$ \\
+        Loop1-2-Line2 & $\Delta T/\mathrm{~{}^\circ C} = (2.395\pm 0.012) \times 10^{-4}t/\mathrm{~s} + (-2.677\pm 0.00044) \quad r^2 = 0.9919$ \\
+        Loop1-2-Line3 & $\Delta T/\mathrm{~{}^\circ C} = (1.898\pm 0.010) \times 10^{-4}t/\mathrm{~s} + (-0.1129\pm 0.0012) \quad r^2 = 0.9928$ \\
+        Loop1-3-Line1 & $\Delta T/\mathrm{~{}^\circ C} = (1.118\pm 0.007) \times 10^{-4}t/\mathrm{~s} + (1.548\pm 0.060) \times 10^{-3} \quad r^2 = 0.9922$ \\
+        Loop1-3-Line2 & $\Delta T/\mathrm{~{}^\circ C} = (2.873\pm 0.051) \times 10^{-4}t/\mathrm{~s} + (-2.510\pm 0.001) \quad r^2 = 0.9526$ \\
+        Loop1-3-Line3 & $\Delta T/\mathrm{~{}^\circ C} = (2.969\pm 0.019) \times 10^{-4}t/\mathrm{~s} + (-0.1268\pm 0.0016) \quad r^2 = 0.9941$ \\
+        Loop1-4-Line1 & $\Delta T/\mathrm{~{}^\circ C} = (1.613\pm 0.007) \times 10^{-4}t/\mathrm{~s} + (1.719\pm 0.009) \times 10^{-2} \quad r^2 = 0.9941$ \\
+        Loop1-4-Line2 & $\Delta T/\mathrm{~{}^\circ C} = (2.412\pm 0.024) \times 10^{-4}t/\mathrm{~s} + (-2.338\pm 0.001) \quad r^2 = 0.9772$ \\
+        Loop1-4-Line3 & $\Delta T/\mathrm{~{}^\circ C} = (2.678\pm 0.020) \times 10^{-4}t/\mathrm{~s} + (0.5138\pm 0.0022)
+        \quad r^2 = 0.9917$ \\
+        \midrule
+        Loop2-1-Line1 & $\Delta T/\mathrm{~{}^\circ C} = (6.858\pm 0.120) \times 10^{-5}t/\mathrm{~s} + (-2.048\pm 0.829) \times 10^{-4} \quad r^2 = 0.9513$ \\
+        Loop2-1-Line2 & $\Delta T/\mathrm{~{}^\circ C} = (1.694\pm 0.021) \times 10^{-4}t/\mathrm{~s} + (-1.464\pm 0.0006) \quad r^2 = 0.9593$ \\
+        Loop2-1-Line3 & $\Delta T/\mathrm{~{}^\circ C} = (2.623\pm 0.016) \times 10^{-4}t/\mathrm{~s} + (-0.0724\pm 0.0014) \quad r^2 = 0.9928$ \\
+        Loop2-2-Line1 & $\Delta T/\mathrm{~{}^\circ C} = (1.651\pm 0.009) \times 10^{-4}t/\mathrm{~s} + (1.927\pm 0.069) \times 10^{-3} \quad r^2 = 0.9945$ \\
+        Loop2-2-Line2 & $\Delta T/\mathrm{~{}^\circ C} = (2.269\pm 0.027) \times 10^{-4}t/\mathrm{~s} + (-1.441\pm 0.0009) \quad r^2 = 0.9688$ \\
+        Loop2-2-Line3 & $\Delta T/\mathrm{~{}^\circ C} = (2.670\pm 0.015) \times 10^{-4}t/\mathrm{~s} + (-0.1102\pm 0.0014) \quad r^2 = 0.9926$ \\
+        Loop2-3-Line1 & $\Delta T/\mathrm{~{}^\circ C} = (1.729\pm 0.009) \times 10^{-4}t/\mathrm{~s} + (5.273\pm 0.788) \times 10^{-4} \quad r^2 = 0.9945$ \\
+        Loop2-3-Line2 & $\Delta T/\mathrm{~{}^\circ C} = (2.096\pm 0.010) \times 10^{-4}t/\mathrm{~s} + (-1.422\pm 0.0004) \quad r^2 = 0.9915$ \\
+        Loop2-3-Line3 & $\Delta T/\mathrm{~{}^\circ C} = (3.175\pm 0.021) \times 10^{-4}t/\mathrm{~s} + (-0.1961\pm 0.0020) \quad r^2 = 0.9944$ \\
+        Loop2-4-Line1 & $\Delta T/\mathrm{~{}^\circ C} = (1.869\pm 0.011) \times 10^{-4}t/\mathrm{~s} + (2.000\pm 0.075) \times 10^{-3} \quad r^2 = 0.9945$ \\
+        Loop2-4-Line2 & $\Delta T/\mathrm{~{}^\circ C} = (2.211\pm 0.009) \times 10^{-4}t/\mathrm{~s} + (-1.404\pm 0.0003) \quad r^2 = 0.9959$ \\
+        Loop2-4-Line3 & $\Delta T/\mathrm{~{}^\circ C} = (2.757\pm 0.015) \times 10^{-4}t/\mathrm{~s} + (-0.1288\pm 0.0014) \quad r^2 = 0.9945$ \\
+        Loop2-5-Line1 & $\Delta T/\mathrm{~{}^\circ C} = (1.939\pm 0.010) \times 10^{-4}t/\mathrm{~s} + (7.304\pm 0.819) \times 10^{-4} \quad r^2 = 0.9956$ \\
+        Loop2-5-Line2 & $\Delta T/\mathrm{~{}^\circ C} = (2.277\pm 0.009) \times 10^{-4}t/\mathrm{~s} + (-1.393\pm 0.0003) \quad r^2 = 0.9961$ \\
+        Loop2-5-Line3 & $\Delta T/\mathrm{~{}^\circ C} = (2.801\pm 0.016) \times 10^{-4}t/\mathrm{~s} + 0.1178\pm 0.0015 \quad r^2 = 0.9948$ \\
+        Loop2-6-Line1 & $\Delta T/\mathrm{~{}^\circ C} = (1.885\pm 0.008) \times 10^{-4}t/\mathrm{~s} + (2.149\pm 0.076) \times 10^{-3} \quad r^2 = 0.9955$ \\
+        Loop2-6-Line2 & $\Delta T/\mathrm{~{}^\circ C} = (2.192\pm 0.007) \times 10^{-4}t/\mathrm{~s} + (-1.377\pm 0.0003) \quad r^2 = 0.9971$ \\
+        Loop2-6-Line3 & $\Delta T/\mathrm{~{}^\circ C} = (1.725\pm 0.009) \times 10^{-4}t/\mathrm{~s} + (-0.0162\pm 0.0010) \quad r^2 = 0.9948$ \\
+    \end{longtable}
+\end{center}
+
+\subsection{硝酸钾溶解热的计算}
+
+本实验中，首先需要计算得到电热补偿的热量$Q^\prime$，据此结合表 \ref{tab:3} 中雷诺校正得到的温度差，计算得到每次加入\ce{KNO_3}时，体系所吸收的热量$Q$，最终计算得到每次加入\ce{KNO_3}后的积分溶解热$Q_{\rm s}$。将实验数据带入以下公式，得到表 \ref{tab:5}、表 \ref{tab:6}。
+\begin{align*}
+    &Q^\prime = I^2Rt\\
+    &Q = Q^\prime\frac{T_2-T_1}{T_2^\prime-T_1^\prime}=I^2Rt\frac{\Delta T_a}{\Delta T_b}\\
+    &Q_{\mathrm{s}} = \frac{\sum Q}{\sum n_2}
+\end{align*}
+
+\begin{table}[htbp]
+    \centering
+    \caption{补偿热$Q^\prime$的计算}
+    \begin{tabular}{ccccccc}
+    \toprule
+    实验序号 & $t_1/\mathrm{S}$ & $t_2/\mathrm{S}$ & $\Delta t/\mathrm{S}$ & $R/\mathrm{\Omega}$ & $I/\mathrm{A}$ & $Q^\prime/\mathrm{J}$\\
+    \midrule
+    Loop1-1 & 286.057 & 932.651 & 646.594 & 11.3 & 0.97 & $6.87\times 10^{3}$\\
+    Loop1-2 & 478.097 & 901.328 & 423.231 & 11.3 & 1.16 & $6.44\times 10^{3}$\\
+    Loop1-3 & 309.730 & 575.890 & 266.160 & 11.3 & 1.46 & $6.41\times 10^{3}$\\
+    Loop1-4 & 509.096 & 836.021 & 326.925 & 11.3 & 1.46 & $7.87\times 10^{3}$\\
+    \midrule
+    Loop2-1 & 366.245 & 592.694 & 226.449 & 11.3 & 1.26 & $4.06\times 10^{3}$\\
+    Loop2-2 & 375.637 & 589.184 & 213.547 & 11.3 & 1.26 & $3.83\times 10^{3}$\\
+    Loop2-3 & 509.279 & 714.157 & 204.878 & 11.3 & 1.26 & $3.68\times 10^{3}$\\
+    Loop2-4 & 400.425 & 604.056 & 203.631 & 11.3 & 1.26 & $3.65\times 10^{3}$\\
+    Loop2-5 & 437.183 & 675.979 & 238.796 & 11.3 & 1.26 & $4.28\times 10^{3}$\\
+    Loop2-6 & 438.013 & 640.040 & 202.027 & 11.3 & 1.26 & $3.62\times 10^{3}$\\
+    \bottomrule
+    \end{tabular}
+    \label{tab:5}
+\end{table}
+
+\begin{table}[htbp]
+    \centering
+    \caption{\ce{KNO_3}溶解热的计算}
+    \begin{tabular}{ccccccccc}
+        \toprule
+        实验序号 & $\Delta T_a/\mathrm{{}^\circ C}$ & $\Delta T_b/\mathrm{{}^\circ C}$ & $Q^\prime/\mathrm{J}$ & $Q/\mathrm{J}$ & $\sum n_2/\mathrm{mol}$ & $Q_{\rm{s}}/\mathrm{J\cdot mol^{-1}}$ \\
+        \midrule
+        Loop1-1 & 2.849 & 2.795 & $6.87\times 10^{3}$ & $7.00\times 10^{3}$ & 0.1781 & $3.93\times 10^{4}$ \\
+        Loop1-2 & 2.644 & 2.528 & $6.44\times 10^{3}$ & $6.74\times 10^{3}$ & 0.3561 & $3.86\times 10^{4}$ \\
+        Loop1-3 & 2.482 & 2.387 & $6.41\times 10^{3}$ & $6.67\times 10^{3}$ & 0.5342 & $3.82\times 10^{4}$ \\
+        Loop1-4 & 2.336 & 2.871 & $7.87\times 10^{3}$ & $6.40\times 10^{3}$ & 0.7122 & $3.76\times 10^{4}$ \\
+        \midrule
+        Loop2-1 & 1.449 & 1.440 & $4.06\times 10^{3}$ & $4.09\times 10^{3}$ & 0.08907 & $4.59\times 10^{4}$ \\
+        Loop2-2 & 1.433 & 1.352 & $3.83\times 10^{3}$ & $4.06\times 10^{3}$ & 0.1806 & $4.49\times 10^{4}$ \\
+        Loop2-3 & 1.416 & 1.297 & $3.68\times 10^{3}$ & $4.02\times 10^{3}$ & 0.2746 & $4.42\times 10^{4}$ \\
+        Loop2-4 & 1.401 & 1.305 & $3.65\times 10^{3}$ & $3.92\times 10^{3}$ & 0.3711 & $4.33\times 10^{4}$ \\
+        Loop2-5 & 1.387 & 1.542 & $4.28\times 10^{3}$ & $3.85\times 10^{3}$ & 0.4700 & $4.24\times 10^{4}$ \\
+        Loop2-6 & 1.373 & 1.333 & $3.62\times 10^{3}$ & $3.73\times 10^{3}$ & 0.5714 & $4.14\times 10^{4}$ \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:6}
+\end{table}
+
+\subsection{积分溶解热与溶液浓度的关系}
+
+\subsubsection{积分溶解热-溶液浓度倒数图的绘制}
+
+对于第二轮实验的数据，绘制积分溶解热与溶液浓度倒数的关系图，即$Q_{\mathrm{s}}-n_0^{-1}$图 \ref{fig:5}，其数据如表 \ref{tab:7}。
+
+\begin{table}[htbp]
+    \centering
+    \caption{积分溶解热与溶液浓度的关系}
+    \begin{tabular}{cccc}
+        \toprule
+        实验序号 & $n_0$ & $n_0^{-1}$ & $Q_{\mathrm{s}}$ \\
+        \midrule
+        1 & 311.57 & 0.0032096 & $4.59\times 10^{4}$ \\
+        2 & 153.65 & 0.0065083 & $4.49\times 10^{4}$ \\
+        3 & 101.07 & 0.0098941 & $4.42\times 10^{4}$ \\
+        4 & 74.797 & 0.013370 & $4.33\times 10^{4}$ \\
+        5 & 59.045 & 0.016936 & $4.24\times 10^{4}$ \\
+        6 & 48.568 & 0.020590 & $4.14\times 10^{4}$ \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:7}
+\end{table}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=.75\textwidth]{figures/4-1.png}
+    \caption{$Q_{\mathrm{s}}-n_0^{-1}$图与拟合直线}
+    \label{fig:5}
+\end{figure}
+
+\subsubsection{Origin 作图求算溶解吸热}
+
+我们选取第二轮实验的最后一组数据（Loop2-6）进行分析，首先，对于三段平台期进行线性拟合，得到的结果如图 \ref{fig:5a}，拟合直线表达式如表 \ref{tab:8}。
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=.75\textwidth]{figures/4-2.png}
+    \caption{Loop2-6的温度-时间关系图}
+    \label{fig:5a}
+\end{figure}
+
+\begin{table}[htbp]
+    \centering
+    \caption{Loop2-6的拟合直线}
+    \begin{tabular}{cc}
+        \toprule
+         实验序号-直线 & 拟合直线 \\
+         \midrule
+         Loop2-6-Line1 & $\Delta T/\mathrm{~{}^\circ C} = (1.888\pm 0.001) \times 10^{-4}t/\mathrm{~s} + (0.00213\pm 0.00008) \quad r^2 = 0.99547$ \\
+        Loop2-6-Line2 & $\Delta T/\mathrm{~{}^\circ C} = (1.935\pm 0.001) \times 10^{-4}t/\mathrm{~s} + (-0.03881\pm 0.0011) \quad r^2 = 0.99134$ \\
+        Loop2-6-Line3 & $\Delta T/\mathrm{~{}^\circ C} = (2.179\pm 0.001) \times 10^{-4}t/\mathrm{~s} + (-1.37659\pm 0.00023) \quad r^2 = 0.99777$ \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:8}
+\end{table}
+
+根据表 \ref{tab:8}可以发现，三段平台期由于磁子搅拌，均有着相近的斜率，即升温速率，记为$k_1,k_2,k_3$。为了消除升温速率对于温度差带来的影响，对于溶解降温和加热升温两个过程，分别选取相邻两段拟合直线斜率的平均值$k_a, k_b$，作为升降温过程中，体系自身的温度变化速率：
+\begin{align*}
+    k_a &= \frac{k_1+k_2}{2} = 1.912\times 10^{-4}\\
+    k_b &= \frac{k_2+k_3}{2} = 2.057\times 10^{-4}
+\end{align*}
+
+选取降温与升温过程的起止温度$T_1,T_2,T_2^\prime,T_1^\prime$及其对应的时间$t_1,t_2,t_2^\prime,t_1^\prime$，如表 \ref{tab:9}。
+\begin{table}[htbp]
+    \centering
+    \caption{Loop2-6中升降温的起止温度及其对应时间}
+    \begin{tabular}{cccccccc}
+        \toprule
+         $T_1$ & $t_1$ & $T_2$ & $t_2$ & $T_2^\prime$ & $t_2^\prime$ & $T_1^\prime$ & $t_1^\prime$\\
+         \midrule
+         0.032 & 166.278 & -1.321 & 249.831 & -1.279 & 447.251 & 0.126 & 875.315\\
+         \bottomrule         
+    \end{tabular}
+    \label{tab:9}
+\end{table}
+
+进一步，求出温度差$\Delta T_a,\Delta T_b$与时间差$\Delta t_a,\Delta t_b$，如表 \ref{tab:9a}。
+\begin{table}[htbp]
+    \centering
+    \caption{Loop2-6中升降温的起止温度及其对应时间}
+    \begin{tabular}{cccc}
+        \toprule
+         $\Delta T_a$ & $\Delta t_a$ & $\Delta T_b$ & $\Delta t_b$ \\
+         \midrule
+         1.353 & 83.553 & 1.399 & 428.064 \\
+         \bottomrule         
+    \end{tabular}
+    \label{tab:9a}
+\end{table}
+
+使用$k_a,k_b$对于温度差进行校正：
+\begin{align*}
+    \Delta T_a^\prime &= \Delta T_a + k_a\Delta t_a = 1.369 \mathrm{~{}^\circ C}\\
+    \Delta T_b^\prime &= \Delta T_b - k_b\Delta t_b = 1.310 \mathrm{~{}^\circ C}
+\end{align*}
+
+根据表 \ref{tab:5} 可知，Loop2-6中的补偿热 $Q^\prime = 3.62\times 10^{3} \mathrm{~J}$，据此，可以求得\ce{KNO_3}的溶解热：
+\begin{equation*}
+    Q = Q^\prime \times \frac{\Delta T_a^\prime}{\Delta T_b^\prime} = 3.78 \times 10^{3} \mathrm{~J}
+\end{equation*}
+
+这与表 \ref{tab:5} 中使用雷诺校正得到的结果 $Q = 3.73 \times 10^{3} \mathrm{~J}$ 非常接近，可以认为使用平均斜率的校正方法可靠。
+
+\section{结果与讨论}
+\subsection{误差分析}
+
+由于第一轮实验的内容与第二轮几乎完全相同，其误差分析也一致，为了方便起见，我们使用第二轮实验的数据进行误差分析。出于书写方便考虑，在表示误差$\sigma$时，将会略去单位，其单位与其对应的测量值保持一致。
+
+\subsubsection{雷诺校正后的温度不确定度计算}
+
+首先，要求计算温度的不确定度。而温度的不确定度主要由两部分构成：温度传感器自身的不确定度、拟合直线中预测值的不确定度。其中，我们假定温度传感器自身的不确定度为其示数最后一位的数量级的一半，即：
+\begin{equation}\label{eq:3}
+    \sigma_{T} = \frac{10^{-4}}{2} = 5\times10^{-5}
+\end{equation}
+
+接下来，计算拟合直线的预测值（温度$T_1,T_2,T_2^\prime,T_1^\prime$）的不确定度。
+
+在最小二乘法进行的线性回归中$y = ax + b + \varepsilon$，预测值$\hat y$的标准误差可以表示为
+\begin{equation*}
+    \sigma_{\hat{y}} = \sqrt{ \sigma_{a}^2 \cdot x^2 + \sigma_{b}^2 + 2 \cdot \mathrm{Cov}(a, b) \cdot x + \sigma^2 } 
+\end{equation*}
+其中，协方差$\mathrm{Cov}(a,b)$与残差$\sigma^2$一般较小，可以忽略，因此，我们得到
+\begin{equation}\label{eq:2}
+    \sigma_{\hat{y}} = \sqrt{ \sigma_{a}^2 \cdot x^2 + \sigma_{b}^2}
+\end{equation}
+根据表 \ref{tab:3} 与表 \ref{tab:4} ，带入式 \eqref{eq:2} 中得到表 \ref{tab:10}。
+
+\begin{table}[htbp]
+    \centering
+    \caption{拟合直线预测值的不确定度}
+    \begin{tabular}{ccccc}
+        \toprule
+        实验序号 & $\sigma_{T_1}^\prime$ & $\sigma_{T_2}^\prime$ & $\sigma_{T_2^\prime}^\prime$ & $\sigma_{T_1^\prime}^\prime$ \\
+        \midrule
+        1 & $1.92 \times 10^{-4}$ & $6.72 \times 10^{-4}$ & $1.25 \times 10^{-3}$ & $1.63 \times 10^{-3}$ \\
+        2 & $1.59 \times 10^{-4}$ & $9.97 \times 10^{-4}$ & $1.68 \times 10^{-3}$ & $1.61 \times 10^{-3}$ \\
+        3 & $1.72 \times 10^{-4}$ & $4.35 \times 10^{-4}$ & $7.67 \times 10^{-4}$ & $2.43 \times 10^{-3}$ \\
+        4 & $1.81 \times 10^{-4}$ & $3.29 \times 10^{-4}$ & $5.76 \times 10^{-4}$ & $1.62 \times 10^{-3}$ \\
+        5 & $1.92 \times 10^{-4}$ & $3.38 \times 10^{-4}$ & $6.18 \times 10^{-4}$ & $1.78 \times 10^{-3}$ \\
+        6 & $1.64 \times 10^{-4}$ & $3.26 \times 10^{-4}$ & $5.09 \times 10^{-4}$ & $1.13 \times 10^{-3}$ \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:10}
+\end{table}
+
+根据误差传递公式：
+\begin{equation}\label{eq:4}
+    \sigma_{\Delta T}= \sqrt{\sigma_{T_1}^2+\sigma_{T_2}^2}
+\end{equation}
+将表 \ref{tab:10} 中的数据与仪器自身的不确定度 \eqref{eq:3} 带入式 \eqref{eq:4} 得到温度的不确定度如表 \ref{tab:11}。
+
+\begin{table}[htbp]
+    \centering
+    \caption{拟合直线预测值的不确定度}
+    \begin{tabular}{ccccc}
+        \toprule
+        实验序号 & $\sigma_{T_1}^\prime$ & $\sigma_{T_2}^\prime$ & $\sigma_{T_2^\prime}^\prime$ & $\sigma_{T_1^\prime}^\prime$ \\
+        \midrule
+        1 & $1.98 \times 10^{-4}$ & $6.74 \times 10^{-4}$ & $1.25 \times 10^{-3}$ & $1.63 \times 10^{-3}$ \\
+        2 & $1.67 \times 10^{-4}$ & $9.98 \times 10^{-4}$ & $1.68 \times 10^{-3}$ & $1.61 \times 10^{-3}$ \\
+        3 & $1.79 \times 10^{-4}$ & $4.38 \times 10^{-4}$ & $7.69 \times 10^{-4}$ & $2.43 \times 10^{-3}$ \\
+        4 & $1.87 \times 10^{-4}$ & $3.32 \times 10^{-4}$ & $5.78 \times 10^{-4}$ & $1.62 \times 10^{-3}$ \\
+        5 & $1.99 \times 10^{-4}$ & $3.42 \times 10^{-4}$ & $6.20 \times 10^{-4}$ & $1.78 \times 10^{-3}$ \\
+        6 & $1.71 \times 10^{-4}$ & $3.30 \times 10^{-4}$ & $5.11 \times 10^{-4}$ & $1.13 \times 10^{-3}$ \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:11}
+\end{table}
+
+最终，根据式 \eqref{eq:4}，结合表 \ref{tab:3},得到温度差的不确定度如表 \ref{tab:12}。
+
+\begin{table}[htbp]
+    \centering
+    \caption{温度差及其不确定度}
+    \begin{tabular}{ccc}
+        \toprule
+        实验序号 & $\Delta T_a/\mathrm{{}^\circ C}$ & $\Delta T_b/\mathrm{{}^\circ C}$ \\
+        \midrule
+        1 & 1.449 $\pm$ 0.000702 & 1.440 $\pm$ 0.00206 \\
+        2 & 1.433 $\pm$ 0.00101 & 1.352 $\pm$ 0.00233 \\
+        3 & 1.416 $\pm$ 0.000473 & 1.297 $\pm$ 0.00255 \\
+        4 & 1.401 $\pm$ 0.000382 & 1.305 $\pm$ 0.00172 \\
+        5 & 1.387 $\pm$ 0.000396 & 1.542 $\pm$ 0.00189 \\
+        6 & 1.373 $\pm$ 0.000371 & 1.333 $\pm$ 0.00124 \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:12}
+\end{table}
+
+\subsubsection{溶解热的不确定度计算}
+
+首先，要计算出补偿热的不缺定度。根据补偿热的计算公式：
+\begin{equation}
+    Q^\prime = I^2R\Delta t
+\end{equation}
+
+其中，假定电流与电阻的误差分别为其有效数字最后一位的一半：
+\begin{align*}
+    \sigma_I &= \frac{1\times 10^{-2}}{2} = 5\times 10^{-3}\\
+    \sigma_R &= \frac{1\times 10^{-1}}{2} = 5\times 10^{-2}
+\end{align*}
+而时间由于是自变量，不考虑其误差。
+
+以第二轮实验的第一次为例，推导补偿热及其不确定度的计算：
+\begin{equation*}
+Q^\prime=R \Delta t I^{2}=\left(11.3\right) \times \left(226.449\right) \times \left(1.26\right)^{2}=4062.0\ \mathrm{~J}
+\end{equation*}
+\begin{equation*}
+\begin{aligned}
+\frac{\partial Q^\prime }{\partial I }&=2 R \Delta t I=2 \times \left(11.3\right) \times \left(226.449\right) \times \left(1.26\right)=6.4 \times 10^{3}\\
+\frac{\partial Q^\prime }{\partial R }&=\Delta t I^{2}=\left(226.449\right) \times \left(1.26\right)^{2}=3.6 \times 10^{2}\\
+\end{aligned}
+\end{equation*}
+\begin{equation*}
+\begin{aligned}
+\sigma_{Q^\prime}&=\sqrt{\left(\frac{\partial Q^\prime }{\partial I } \sigma_{I}\right)^2+\left(\frac{\partial Q^\prime }{\partial R } \sigma_{R}\right)^2}\\
+&=\sqrt{\left(6.4 \times 10^{3} \times 0.005\right)^2+\left(3.6 \times 10^{2} \times 0.05\right)^2}\\
+&=\sqrt{\left(32.0\right)^2+\left(18.0\right)^2}\\
+&=37.0\ \mathrm{~J}
+\end{aligned}
+\end{equation*}
+\begin{equation*}
+Q^\prime=\left (4062 \pm 37 \right )\ \mathrm{~J}
+\end{equation*}
+
+进一步地，求溶解热及其不确定度的计算。根据溶解热的计算公式：
+\begin{equation*}
+    Q = Q^\prime \frac{\Delta T_a}{\Delta T_b}
+\end{equation*}
+
+根据表 \ref{tab:12}，有：
+\begin{equation*}
+Q=\frac{Q^\prime \Delta T_a}{\Delta T_b}=\frac{\left(4062.0\right) \times \left(1.449\right)}{\left(1.44\right)}=4087.0\ \mathrm{~J}
+\end{equation*}
+\begin{equation*}
+\begin{aligned}
+\frac{\partial Q }{\partial Q^\prime }&=\frac{\Delta T_a}{\Delta T_b}=\frac{\left(1.449\right)}{\left(1.44\right)}=1.0\\
+\frac{\partial Q }{\partial \Delta T_a }&=\frac{Q^\prime}{\Delta T_b}=\frac{\left(4062.0\right)}{\left(1.44\right)}=2.8 \times 10^{3}\\
+\frac{\partial Q }{\partial \Delta T_b }&=- \frac{Q^\prime \Delta T_a}{\Delta T_b^{2}}=- \frac{\left(4062.0\right) \times \left(1.449\right)}{\left(1.44\right)^{2}}=-2.8 \times 10^{3}\\
+\end{aligned}
+\end{equation*}
+\begin{equation*}
+\begin{aligned}
+\sigma_{Q}&=\sqrt{\left(\frac{\partial Q }{\partial Q^\prime } \sigma_{Q^\prime}\right)^2+\left(\frac{\partial Q }{\partial \Delta T_a } \sigma_{\Delta T_a}\right)^2+\left(\frac{\partial Q }{\partial \Delta T_b } \sigma_{\Delta T_b}\right)^2}\\
+&=\sqrt{\left(1.0 \times 37.0\right)^2+\left(2.8 \times 10^{3} \times 0.0007\right)^2+\left(-2.8 \times 10^{3} \times 0.0021\right)^2}\\
+&=\sqrt{\left(37.0\right)^2+\left(2.0\right)^2+\left(-5.8\right)^2}\\
+&=38.0\ \mathrm{~J}
+\end{aligned}
+\end{equation*}
+\begin{equation*}
+Q=\left (4087 \pm 38 \right )\ \mathrm{~J}
+\end{equation*}
+类似地，我们可以得到每次实验补偿热、溶解热及其各自的不确定度，如表 \ref{tab:13}。
+
+\begin{table}[htbp]
+    \centering
+    \caption{补偿热、溶解热及其各自不确定度}
+    \begin{tabular}{ccc}
+        \toprule
+        实验序号 & $Q^\prime/\mathrm{J}$ & $Q/\mathrm{J}$ \\
+        \midrule
+        1 & 4062 $\pm$ 37 & 4087 $\pm$ 38 \\
+        2 & 3831 $\pm$ 35 & 4061 $\pm$ 38 \\
+        3 & 3676 $\pm$ 33 & 4033 $\pm$ 37 \\
+        4 & 3653 $\pm$ 33 & 3922 $\pm$ 36 \\
+        5 & 4284 $\pm$ 39 & 3853 $\pm$ 35 \\
+        6 & 3624 $\pm$ 33 & 3733 $\pm$ 34 \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:13}
+\end{table}
+
+\subsubsection{积分溶解热的不确定度计算}\label{sec:1}
+
+根据积分溶解热的计算公式：
+\begin{equation}\label{eq:5}
+    Q_{\mathrm{s}} = \frac{\sum Q}{\sum n_2} = \frac{M_{\ce{KNO_3}}\sum Q}{\sum m_{\ce{KNO_3}}}
+\end{equation}
+考虑称量的允差：
+\begin{equation*}
+    \sigma_{m} = \frac{2e}{\sqrt{3}} = 2.3\times 10^{-4}
+\end{equation*}
+对于$n$次称量的和相加，有:
+\begin{equation*}
+    \sigma_{m}(n) = \sqrt{n}\sigma_{m} = 2.3\times 10^{-4}\times \sqrt{n}
+\end{equation*}
+根据表 \ref{tab:2}，以第二轮的第一次实验为例：
+\begin{equation*}
+Q_{\mathrm{s}}=\frac{101.11 Q}{m_{\ce{KNO_3}}}=\frac{101.11 \times \left(4087\right)}{\left(9.0063\right)}=4.588 \times 10^{4}\ \mathrm{~J}    
+\end{equation*}
+\begin{equation*}
+\begin{aligned}
+\frac{\partial Q_{\mathrm{s}} }{\partial Q }&=\frac{101.11}{m_{\ce{KNO_3}}}=\frac{101.11}{\left(9.0063\right)}=11.0\\
+\frac{\partial Q_{\mathrm{s}} }{\partial m_{\ce{KNO_3}} }&=- \frac{101.11 Q}{m_{\ce{KNO_3}}^{2}}=- \frac{101.11 \times \left(4087\right)}{\left(9.0063\right)^{2}}=-5.1 \times 10^{3}\\     
+\end{aligned}
+\end{equation*}
+\begin{equation*}
+\begin{aligned}
+\sigma_{Q_{\mathrm{s}}}&=\sqrt{\left(\frac{\partial Q_{\mathrm{s}} }{\partial Q } \sigma_{Q}\right)^2+\left(\frac{\partial Q_{\mathrm{s}} }{\partial m_{\ce{KNO_3}} } \sigma_{m_{\ce{KNO_3}}}\right)^2}\\       
+&=\sqrt{\left(11.0 \times 38.0\right)^2+\left(-5.1 \times 10^{3} \times 0.00023\right)^2}\\
+&=\sqrt{\left(4.3 \times 10^{2}\right)^2+\left(-1.2\right)^2}\\
+&=4.3 \times 10^{2}\ \mathrm{~J}
+\end{aligned}
+\end{equation*}
+\begin{equation*}
+Q_{\mathrm{s}}=\left (4.588 \times 10^{4} \pm 4.3 \times 10^{2} \right )\ \mathrm{~J}
+\end{equation*}
+
+类似地，根据表 \ref{tab:6}，得到所有积分溶解热的不确定度，如表\ref{tab:14}。
+
+\begin{table}[htbp]
+    \centering
+    \caption{\ce{KNO_3}质量与溶解热}
+    \begin{tabular}{cccc}
+        \toprule
+        实验序号 & $\sum m_{\ce{KNO_3}}/\mathrm{g}$ & $\sum Q/\mathrm{~J}$ & $Q_{\mathrm{s}}/\mathrm{J\cdot mol^{-1}}$ \\
+        \midrule
+        1 & 9.0063 $\pm$ 0.00023 & 4087 $\pm$ 38 & (4.59 $\pm$ 0.043)$\times 10^4$\\
+        2 & 18.2630 $\pm$ 0.00031 & 8148 $\pm$ 54 & (4.51 $\pm$ 0.030)$\times 10^4$\\
+        3 & 27.7650 $\pm$ 0.00044 & 12181 $\pm$ 65 & (4.44 $\pm$ 0.024)$\times 10^4$\\
+        4 & 37.5166 $\pm$ 0.00054 & 16103 $\pm$ 75 & (4.34 $\pm$ 0.020)$\times 10^4$\\
+        5 & 47.5254 $\pm$ 0.00062 & 19956 $\pm$ 82 & (4.25 $\pm$ 0.017)$\times 10^4$\\
+        6 & 57.7770 $\pm$ 0.00070 & 23689 $\pm$ 89 & (4.15 $\pm$ 0.016)$\times 10^4$\\
+        \bottomrule
+    \end{tabular}
+    \label{tab:14}
+\end{table}
+
+\subsubsection{溶液浓度的不确定度}
+
+根据公式 \eqref{eq:1}，可以得到：
+\begin{equation}
+    n_0=\frac{n_1}{n_2}=\frac{\rho_{\ce{H_2O}}V_{\ce{H_2O}}/M_{\ce{H_2O}}}{m_{\ce{KNO_3}}/M_{\ce{KNO_3}}}=\frac{0.9973\times V_{\ce{H_2O}/18.02}}{m_{\ce{KNO_3}}/101.11} = 5.596\frac{V_{\ce{H_2O}}}{m_{\ce{KNO_3}}}
+\end{equation}
+其中，水的体积由容量瓶测定，容量瓶的误差为$0.1\%$，所以：
+\begin{equation*}
+    \sigma_{V_{\ce{H_2O}}} = 500 \times 0.1\% = 0.5
+\end{equation*}
+
+以第二轮的第一次实验为例，结合表 \ref{tab:14} 中的结果，计算溶液浓度$n_0$的不确定度：
+\begin{equation*}
+n_0=\frac{5.596 V_{\ce{H_2O}}}{m_{\ce{KNO_3}}}=\frac{5.596 \times \left(500\right)}{\left(9.0063\right)}=310.7\
+\end{equation*}
+\begin{equation*}
+\begin{aligned}
+\frac{\partial n_0 }{\partial V_{\ce{H_2O}} }&=\frac{5.596}{m_{\ce{KNO_3}}}=\frac{5.596}{\left(9.0063\right)}=0.62\\        
+\frac{\partial n_0 }{\partial m_{\ce{KNO_3}} }&=- \frac{5.596 V_{\ce{H_2O}}}{m_{\ce{KNO_3}}^{2}}=- \frac{5.596 \times \left(500\right)}{\left(9.0063\right)^{2}}=-35.0\\
+\end{aligned}
+\end{equation*}
+\begin{equation*}
+\begin{aligned}
+\sigma_{n_0}&=\sqrt{\left(\frac{\partial n_0 }{\partial V_{\ce{H_2O}} } \sigma_{V_{\ce{H_2O}}}\right)^2+\left(\frac{\partial n_0 }{\partial m_{\ce{KNO_3}} } \sigma_{m_{\ce{KNO_3}}}\right)^2}\\
+&=\sqrt{\left(0.62 \times 0.5\right)^2+\left(-35.0 \times 0.00023\right)^2}\\
+&=\sqrt{\left(0.31\right)^2+\left(-0.0079\right)^2}\\
+&=0.31\
+\end{aligned}
+\end{equation*}
+\begin{equation*}
+n_0=\left (310.7 \pm 0.31 \right )\
+\end{equation*}
+
+类似地，根据表 \ref{tab:14}，得到所有积分溶解热的不确定度，如表\ref{tab:15}。
+
+\begin{table}[htbp]
+    \centering
+    \caption{溶液浓度$n_0$及其不确定度}
+    \begin{tabular}{cc}
+        \toprule
+        实验序号 & $n_0$\\
+        \midrule
+        1  &  $310.7 \pm 0.31$ \\
+        2  &  $153.2 \pm 0.15$ \\
+        3  &  $100.8 \pm 0.1$ \\
+        4  &  $74.58 \pm 0.075$ \\
+        5  &  $58.87 \pm 0.059$ \\
+        6  &  $48.43 \pm 0.048$ \\
+         \bottomrule
+    \end{tabular}
+    \label{tab:15}
+\end{table}
+
+\subsection{思考与讨论}
+
+\subsubsection{讨论1：第一轮实验}
+
+\begin{enumerate}
+    \item 每次加入相同质量的\ce{KNO_3}后，体系的温度变化并不相同，温度变化的绝对值会逐渐减小。
+    \item 为了得到更好的数据，应当：
+    \begin{enumerate}
+        \item 控制每次加入\ce{KNO_3}的量相当，且不要太多也不要太少：
+        \begin{itemize}
+            \item 太多会导致溶液浓度接近\ce{KNO_3}的饱和浓度，导致溶解速率降低，溶液降温后\ce{KNO_3}的溶解度减小，原本溶液中的\ce{KNO_3}可能会在降温过程中析出。
+            \item 太少会导致每次降温幅度过小，会增加实验的相对误差，同时也难以控制电热补偿的时间与功率。
+        \end{itemize}
+        \item 要合理控制电热补偿的功率与搅拌速率：
+        \begin{itemize}
+            \item 电热补偿功率决定了升温曲线的斜率，搅拌速率决定了\ce{KNO_3}溶解的速率，也就是降温曲线的斜率.
+            \item 为了减小两端曲线与环境热交换的差值，就要控制热补偿的功率与搅拌速率，尽可能使得降温、升温曲线的斜率相当
+        \end{itemize}
+    \end{enumerate}
+\end{enumerate}
+
+\subsubsection{讨论2：第二轮实验}
+
+\begin{enumerate}
+    \item $Q_{\mathrm{s}}-n_0^{-1}$的关系如图 \ref{fig:5}，两者呈负相关的线性关系，其拟合直线的$r^2 = 0.9981$，呈现出非常理想的线性关系。
+    \item 为什么积分溶解热会随着溶液浓度增加而减小？
+    
+    \textbf{答}：
+    \begin{itemize}
+        \item 溶解过程可以被分解为两个步骤：
+        \begin{enumerate}
+            \item[(a)] 固体硝酸钾的晶格离子之间的吸引力被打破，需要吸收热量，这部分的热量是正的。
+            \item[(b)] 硝酸钾的离子与溶剂分子之间形成的新的相互作用，会释放热量，这部分的热量是负的。
+        \end{enumerate}
+        \item 当硝酸钾的浓度增加时，溶液中的离子间的相互吸引也会增强，这会使得步骤(b)中释放的热量减少。因此，随着浓度的增加，总的积分溶解热（是这两个步骤的热量之和）会变得越来越小。
+        \item 另外，更高浓度的硝酸钾溶液意味着溶液中的水分子数量相对较少。因为水分子数量减少，离子与水分子之间能形成的相互作用也会减少，导致释放的热量减少。这也是为什么积分溶解热会随着浓度增加而递减。
+        \item 综上所述，硝酸钾溶液的积分溶解热随溶液浓度递减的原因主要是因为离子间的吸引增强以及溶液中水分子数量的减少。
+    \end{itemize}
+\end{enumerate}
+\subsection{课后思考题}
+
+\subsubsection{积分溶解热-溶液浓度图的绘制与溶解热的计算}
+
+根据表 \ref{tab:15} 与表 \ref{tab:14}，画出积分溶解热$Q_{\mathrm{s}}$-溶液浓度$n_0$图。在之前的拟合中，我们发现积分溶解热$Q_{\mathrm{s}}$与$n_0^-1$有着良好的线性关系，所以在$Q_{\mathrm{s}}-n_0$图中，进行带误差的$Q_{\mathrm{s}}-n_0^-1$的拟合曲线。
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{figures/5-1.png}
+    \caption{$Q_{\mathrm{s}}-n_0$图及拟合曲线}
+    \label{fig:6}
+\end{figure}
+
+其中，拟合得到的曲线表达式为：
+\begin{equation}\label{eq:7}
+     Q_{\mathrm{s}}/\mathrm{J\cdot mol^{-1}} = (46853 \pm 84) + (-257711 \pm 5289) \times n_0^{-1}/\mathrm{mol^{-1}} \quad r^2 = 0.9979
+\end{equation}
+
+根据实验原理，积分溶解热$Q_{\mathrm{s}}$可以表示为:
+\begin{equation}\label{eq:8}
+    Q_{\mathrm{s}} = \left(\frac{\partial Q}{\partial n_2}\right)_{n_1} + n_0\left(\frac{\partial Q_{\mathrm{s}}}{\partial n_0}\right)_{n_2}
+\end{equation}
+其中，
+\begin{itemize}
+    \item $\left(\dfrac{\partial Q}{\partial n_2}\right)_{n_1}$为微分溶解热（Differential Dissolutino Heat），此处记为$Q_\mathrm{dS}$；
+    \item $\left(\dfrac{\partial Q_{\mathrm{s}}}{\partial n_0}\right)_{n_2}$为微分冲淡热（Differential Dilution Heat），此处记为$Q_\mathrm{dD}$。
+\end{itemize}
+
+根据式 \eqref{eq:7}、\eqref{eq:8}，可以得到：
+\begin{equation}\label{eq:9}
+    \begin{aligned}
+        Q_\mathrm{dD}/\mathrm{J\cdot mol^{-2}} &= \left(\dfrac{\partial Q_{\mathrm{s}}}{\partial n_0}\right)_{n_2} = (257711 \pm 5289) \times n_0^{-2}/\mathrm{mol^{-2}} \\
+        Q_\mathrm{dS}/\mathrm{J\cdot mol^{-1}} &= \left(\dfrac{\partial Q_{\mathrm{s}}}{\partial n_0}\right)_{n_2} = Q_{\mathrm{s}} - n_0\left(\dfrac{\partial Q_{\mathrm{s}}}{\partial n_0}\right)_{n_2} \\
+        &= (46853 \pm 84) + (-515422 \pm 10578) \times n_0^{-1}/\mathrm{mol^{-2}} 
+    \end{aligned}
+\end{equation}
+
+还可以得到积分冲淡热 $Q_\mathrm{D}$：
+\begin{equation}\label{eq:10}
+    Q_\mathrm{d} = \left.Q_\mathrm{S}\right|_{n_0^\prime} -\left.Q_\mathrm{S}\right|_{n_0}
+\end{equation}
+
+根据式 \eqref{eq:9}、式 \eqref{eq:10}，忽略误差项，可以得到指定溶液浓度$n_0$时的积分溶解热、微分溶解热、微分冲淡热，如表 \ref{tab:16}。
+
+\begin{table}[htbp]
+    \centering
+    \caption{不同$n_0$时的$Q_\mathrm{S},Q_\mathrm{dD},Q_\mathrm{dS},Q_\mathrm{d}$}
+    \begin{tabular}{cccccc}
+    \toprule
+        $n_0$ & $Q_{\mathrm{s}}/\mathrm{J \cdot mol^{-1}}$ & $Q_{\mathrm{dD}}/\mathrm{J \cdot mol^{-2}}$ & $Q_{\mathrm{dS}}/\mathrm{J \cdot mol^{-1}}$ & $Q_{\mathrm{d}}/\mathrm{J \cdot mol^{-1}}$\\
+        \midrule
+        200 & $4.56 \times 10^{4}$ & 6.44 & $4.43 \times 10^{4}$ & -- \\
+        150 & $4.51 \times 10^{4}$ & 11.5 & $4.34 \times 10^{4}$ & 430  \\
+        100 & $4.43 \times 10^{4}$ & 25.8 & $4.17 \times 10^{4}$ & 859 \\
+        80 & $4.36 \times 10^{4}$ & 40.3 & $4.04 \times 10^{4}$ & 644  \\
+        50 & $4.17 \times 10^{4}$ & 103 & $3.65 \times 10^{4}$ & 1930 \\
+        \bottomrule
+    \end{tabular}
+    
+    \label{tab:16}
+\end{table}
+
+\subsubsection{经验方程的拟合与参数的确定}
+
+积分溶解热$Q_{\mathrm{s}}$与溶液浓度的经验公式为：
+\begin{equation}\label{eq:11}
+    Q_{\mathrm{s}} = Q_{\mathrm{s}}^0 \frac{an_0}{1+an_0}
+\end{equation}
+为了便于线性拟合，可以将经验公式变换为：
+\begin{equation}\label{eq:6}
+    \frac{1}{Q_{\mathrm{s}}}=\frac{1}{aQ_{\mathrm{s}}^0}\cdot\frac{1}{n_0}+\frac{1}{Q_{\mathrm{s}}^0}
+\end{equation}
+
+注意，倒数的误差转递为：
+\begin{equation*}
+    \sigma_{x^{-1}} = \frac{\sigma_{x}}{x^2}
+\end{equation*}
+
+根据表 \ref{tab:15} 与表 \ref{tab:14}的数据，按照式 \eqref{eq:6} 进行带误差的线性拟合，拟合数据如表 \ref{tab:18}，拟合结果如图 \ref{fig:7}。
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{ccccc}
+    \toprule
+        实验序号 & $n_0$ & $n_0^{-1}$ & $Q_{\mathrm{s}}/10^4\mathrm{J\cdot mol^{-1}}$ & $Q_{\mathrm{s}}^{-1}/10^{-5}\mathrm{mol^{-1} \cdot J}$ \\
+    \midrule 
+        1 & $310.7 \pm 0.31$ & $( 3.219 \pm 0.0032 ) \times 10^{-3} $ & $(4.59 \pm 0.043) $ & $( 2.179 \pm 0.02 ) $ \\
+        2 &$153.2 \pm 0.15$ & $( 6.527 \pm 0.0064 ) \times 10^{-3} $ & $(4.51 \pm 0.030) $ & $( 2.217 \pm 0.015 ) $ \\
+        3 &$100.8 \pm 0.1$ & $( 9.921 \pm 0.0098 ) \times 10^{-3} $ & $(4.44 \pm 0.024) $ & $( 2.252 \pm 0.012 ) $ \\
+        3 &$74.58 \pm 0.075$ & $( 1.341 \pm 0.0013 ) \times 10^{-2} $ & $(4.34 \pm 0.020) $ & $( 2.304 \pm 0.011 ) $ \\
+        4 &$58.87 \pm 0.059$ & $( 1.699 \pm 0.0017 ) \times 10^{-2} $ & $(4.25 \pm 0.017)$ & $( 2.353 \pm 0.0094 ) $ \\
+        5 &$48.43 \pm 0.048$ & $( 1.711 \pm 0.0014 ) \times 10^{-2} $ & $(4.15 \pm 0.016)$ & $( 2.410 \pm 0.0093 ) $ \\
+    \bottomrule
+    \end{tabular}
+    \caption{$n_0$、$Q_{\mathrm{s}}$及其倒数}
+    \label{tab:18}
+\end{table}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=.7\textwidth]{figures/5-2.png}
+    \caption{$Q_{\mathrm{s}}^{-1}-n_0^{-1}$的拟合直线}
+    \label{fig:7}
+\end{figure}
+
+拟合直线的表达式为
+\begin{equation*}
+    Q_{\mathrm{s}}^{-1}/\mathrm{J\cdot mol^{-1}} = (2.124 \pm 0.007 )\times 10^{-5} + (1.364 \pm 0.045 ) \times 10^{-4}n_0^{-1} \quad r^2 = 0.9956
+\end{equation*}
+
+最终，得到拟合公式 \eqref{eq:11} 中的参数：
+\begin{align*}
+    \frac{1}{Q_{\mathrm{s}}^0} &= (2.124 \pm 0.007 )\times 10^{-5}  \\
+    \therefore Q_{\mathrm{s}}^0 &= 4.70 \times 10^4 \mathrm{~J\cdot mol^{-1}}\\
+    a &= \frac{1}{1.364\times 10^{-4}\times 4.70 \times 10^4} = 0.156 \\
+    \sigma_{Q_{\mathrm{s}}} &= \frac{0.007\times 10^{-5}}{(2.124\times 10^{-5})^2} = 1.6\times 10^2\\
+    \therefore  Q_{\mathrm{s}}^0 &= (4.70 \pm 0.02)\times 10^4 \mathrm{~J\cdot mol^{-1}}
+\end{align*}
+对比式 \eqref{eq:7} 中，$Q_{\mathrm{s}}-n_0^{-1}$拟合得到的：
+\begin{equation}
+     Q_{\mathrm{s}}^0 = (4.69 \pm 0.01)\times 10^4 \mathrm{~J\cdot mol^{-1}}
+\end{equation}
+并没有显著区别，可以认为两种拟合方法都具有一定的合理性。
+\subsubsection{溶解热平均偏差的求算}
+
+在 \ref{sec:1} 的 \ref{tab:13} 中，已经计算得到了溶剂热偏差，如表 \ref{tab:17}。
+
+\begin{table}[htbp]
+    \centering
+    \caption{补偿热、溶解热及其各自不确定度}
+    \begin{tabular}{ccc}
+        \toprule
+        实验序号 & $\mathrm{d}Q/\mathrm{J}$ \\
+        \midrule
+        1 & 38 \\
+        2 & 38 \\
+        3 & 37 \\
+        4 & 36 \\
+        5 & 35 \\
+        6 & 34 \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:17}
+\end{table}
+
+其平均偏差为：
+\begin{equation*}
+    \overline{\mathrm{d}Q} = 36\mathrm{~J}
+\end{equation*}
+
+\subsubsection{体系环境热交换的校正方法}
+
+本实验中主要是用来了两种校正方法：
+\begin{itemize}
+    \item \textbf{雷诺校正}：使用雷诺校正法，校正体系的温差变化，减小体系与环境热交换的误差。
+    \item \textbf{斜率校正}：通过升降温过程相邻的平台期温度-时间拟合直线的平均值，来代表升降温过程的体系-环境热交换导致的温度变化率，以校正误差。
+\end{itemize}
+\subsection{总结}
+
+查阅文献\cite{haynes2016crc}，得到\ce{KNO_3}的标准溶解焓，即微分溶解热：
+\begin{equation*}
+    \Delta H_{\mathrm{s}}(\ce{KNO_3}) = Q_{\mathrm{s}} = 34.89 \mathrm{~kJ\cdot mol^{-1}}
+\end{equation*}
+
+所以，本次实验的偏差为：
+\begin{equation*}
+    E_r(Q_\mathrm{S}) = \frac{47.0-34.9}{34.9}\times 100\% = + 35\%
+\end{equation*}
+由此可见，本实验中具有较大的正误差，这可能是由于，电阻丝的发热并没有100\%被溶液吸收。也就是说在实验中，电阻丝可能有一部分没有浸没入溶液，导致其与空气接触发生热传导，使得其一部分发热被散失到空气中。
+\subsection{意见与建议}
+\begin{itemize}
+    \item 本实验中，两轮实验可以分别测定不同的溶质溶解的热效应，以比较两者的不同溶质溶解的区别，本次实验中两轮实验的数据重复，可供分析的数据并不多。
+    \item 可以使用更为精密的溶解热测定装置，而不是简单的使用保温杯改造。保温杯气密性很差，导致体系中的空气会与外界发生交换，进而使得热交换加快，体系不绝热。
+    \item 可以使用搅拌仪而不是磁子进行搅拌，磁子会与保温杯底部发生明显的摩擦生热，根据我的观察，大部分保温杯底部已有非常明显的磨损、生锈，这会一定程度上造成实验误差：因为磁子的转速无法真正准确控制，当溶液在不断溶解溶质的过程中，其粘度也在逐渐增加，导致虽然磁力搅拌仪转速设置相同，前后磁子的转速也无法保证完全一致。
+\end{itemize}
+
+
+\bibliography{wreference}
+
+\input{appendix2}
+
+\end{document}
+
+
+
+
+
